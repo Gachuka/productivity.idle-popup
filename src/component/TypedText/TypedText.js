@@ -5,45 +5,83 @@ import axios from 'axios'
 const API_URL = "http://localhost:7878"
 console.log(API_URL)
 
-function TypedText() {
+function TypedText({data}) {
   
-  const [ typed, setTyped ] = useState("")
+  const [ dataString, setDataString ] = useState("")
+  const [ gameReady, setGameReady ] = useState(false)
+  const [ timerReady, setTimerReady ] = useState(false)
+  // const [ typedString, setTypedString ] = useState("")
   const [ firstString, setFirstString ] = useState("")
   const [ secondString, setSecondString ] = useState("")
   const [ thirdString, setThirdString ] = useState("")
   const [ fourthString, setFourthString ] = useState("")
-  let typedString = typed
+  let typedStr = data
 
   const downHandler = (event) => {
-    typedString += event.key
-    // setTyped(typedString)
-    setFirstString(typedString.slice(-15))
-    setSecondString(typedString.slice(-45, -15))
-    setThirdString(typedString.slice(-75, -45))
-    setFourthString(typedString.slice(-105, -75))
-    console.log(typedString)
+
+    if(!gameReady) {
+      console.log('gameReady is now True')
+      setGameReady(true)
+    }
+    
+    typedStr += event.key
+    console.log(event.key)
+
+    localStorage.setItem('typed_string', typedStr)
+
+    setFirstString(typedStr.slice(-15))
+    setSecondString(typedStr.slice(-45, -15))
+    setThirdString(typedStr.slice(-75, -45))
+    setFourthString(typedStr.slice(-105, -75))
+  }
+
+  const savePeriod = () => {
+    // localStorage.setItem('typed_string', typedStr)
+
+    console.log('Game Saved')
+
+    const postBody = {
+      key: localStorage.getItem('typed_string')
+    }
+    axios.put(API_URL, postBody)
+
+    setTimeout(() => {savePeriod()}, 10000)
   }
 
   useEffect(() => {
+    console.log('remounted')
     window.addEventListener("keydown", downHandler);
     // window.addEventListener("keyup", upHandler);
+
+    setDataString(data)
+    localStorage.setItem('typed_string', data)
+    setFirstString(dataString.slice(-15))
+    setSecondString(dataString.slice(-45, -15))
+    setThirdString(dataString.slice(-75, -45))
+    setFourthString(dataString.slice(-105, -75))
+
     // Remove event listeners on cleanup
-
-    axios.get(API_URL).then((response) => {
-      console.log('Axios Got')
-      setTyped(response.data)
-    }).then(() => {
-      setFirstString(typedString.slice(-15))
-      setSecondString(typedString.slice(-45, -15))
-      setThirdString(typedString.slice(-75, -45))
-      setFourthString(typedString.slice(-105, -75))
-    });
-
     return () => {
       window.removeEventListener("keydown", downHandler);
       // window.removeEventListener("keyup", upHandler);
+      const postBody = {
+        key: localStorage.getItem('typed_string')
+      }
+      axios.put(API_URL, postBody)
     };
-  }, [typed]);
+  }, [gameReady, dataString]);
+
+  // if(!firstString || !secondString || !thirdString || !fourthString) {
+  //   return <h1> What </h1>
+  // }
+
+  if(!timerReady) {
+    if(gameReady) {
+      console.log('Starting Save Interval Timer')
+      setTimerReady(true)
+      savePeriod()
+    }
+  }
 
   return (
     <>
