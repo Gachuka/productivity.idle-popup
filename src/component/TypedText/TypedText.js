@@ -36,14 +36,11 @@ function TypedText({data}) {
   }
 
   const savePeriod = () => {
-    // localStorage.setItem('typed_string', typedStr)
-
-    console.log('Game Saved')
-
     const postBody = {
-      key: localStorage.getItem('typed_string')
+      text_typed: localStorage.getItem('typed_string')
     }
     axios.put(API_URL, postBody)
+    console.log('Game Saved')
 
     setTimeout(() => {savePeriod()}, 10000)
   }
@@ -65,15 +62,15 @@ function TypedText({data}) {
       window.removeEventListener("keydown", downHandler);
       // window.removeEventListener("keyup", upHandler);
       const postBody = {
-        key: localStorage.getItem('typed_string')
+        text_typed: localStorage.getItem('typed_string')
       }
       axios.put(API_URL, postBody)
     };
   }, [gameReady, dataString]);
 
-  // if(!firstString || !secondString || !thirdString || !fourthString) {
-  //   return <h1> What </h1>
-  // }
+  if(!firstString || !secondString || !thirdString || !fourthString) {
+    return <h1> What </h1>
+  }
 
   if(!timerReady) {
     if(gameReady) {
