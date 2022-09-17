@@ -62,7 +62,7 @@ function TypedText({data}) {
       window.removeEventListener("keydown", downHandler);
       // window.removeEventListener("keyup", upHandler);
       const postBody = {
-        text_typed: localStorage.getItem('typed_string')
+        text_typed: localStorage.getItem("typed_string")
       }
       axios.put(API_URL, postBody)
     };
