@@ -1,4 +1,5 @@
 import './TypedText.scss'
+import { useState, useEffect } from 'react'
 
 function TypedText() {
   
