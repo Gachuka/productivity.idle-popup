@@ -1,0 +1,10 @@
+$font-stack: 'Syne Mono';
+
+@font-face {
+  font-family: $font-stack;
+  src: 
+    url(../../assets/fonts/SyneMono-Regular.woff2) format("woff2"),
+    url(../../assets/fonts/SyneMono-Regular.woff) format("woff"),
+    url(../../assets/fonts/SyneMono-Regular.ttf) format("truetype");
+  font-weight: 400;
+}
