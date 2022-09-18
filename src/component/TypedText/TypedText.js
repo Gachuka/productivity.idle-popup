@@ -83,6 +83,7 @@ function TypedText({data}) {
     console.log('remounted')
     window.addEventListener("keydown", downHandler);
     window.addEventListener("beforeunload", axiosPUT);
+    // window.addEventListener("unload", axiosPUT);
     // window.addEventListener("keyup", upHandler);
 
     setDataString(data.text_typed)
