@@ -2,12 +2,14 @@ import './TypedText.scss'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
 const API_URL = "http://localhost:7878"
-console.log(API_URL)
 
 function TypedText({data}) {
   
   const [ dataString, setDataString ] = useState("")
+  const [ dataChrCount, setDataChrCount ] = useState()
+
   const [ gameReady, setGameReady ] = useState(false)
   const [ timerReady, setTimerReady ] = useState(false)
   // const [ typedString, setTypedString ] = useState("")
@@ -15,19 +17,27 @@ function TypedText({data}) {
   const [ secondString, setSecondString ] = useState("")
   const [ thirdString, setThirdString ] = useState("")
   const [ fourthString, setFourthString ] = useState("")
-  let typedStr = data
+  let typedStr = data.text_typed
+  let characterCount = data.character_count
 
   const downHandler = (event) => {
 
     if(!gameReady) {
-      console.log('gameReady is now True')
+      // console.log('gameReady is now True')
       setGameReady(true)
     }
-    
+
+    if (notLogged.some(string => event.key === string)) {
+      console.log("Not Logged");
+      return;
+    };
+
     typedStr += event.key
-    console.log(event.key)
+    characterCount += 1
+    // console.log(event.key)
 
     localStorage.setItem('typed_string', typedStr)
+    localStorage.setItem('character_count', characterCount)
 
     setFirstString(typedStr.slice(-15))
     setSecondString(typedStr.slice(-45, -15))
@@ -37,9 +47,14 @@ function TypedText({data}) {
 
   const savePeriod = () => {
     const postBody = {
-      text_typed: localStorage.getItem('typed_string')
+      text_typed: localStorage.getItem('typed_string'),
+      character_count: 500
     }
-    axios.put(API_URL, postBody)
+    axios.put(API_URL, postBody).then((response) => {
+      console.log("Success:", response.data)
+    }).catch((error) => {
+      console.log(error)
+    })
     console.log('Game Saved')
 
     setTimeout(() => {savePeriod()}, 10000)
@@ -50,8 +65,8 @@ function TypedText({data}) {
     window.addEventListener("keydown", downHandler);
     // window.addEventListener("keyup", upHandler);
 
-    console.log(data.character_count)
     setDataString(data.text_typed)
+    setDataChrCount(data.character_count)
     localStorage.setItem('typed_string', data.text_typed)
     setFirstString(dataString.slice(-15))
     setSecondString(dataString.slice(-45, -15))
@@ -63,7 +78,8 @@ function TypedText({data}) {
       window.removeEventListener("keydown", downHandler);
       // window.removeEventListener("keyup", upHandler);
       const postBody = {
-        text_typed: localStorage.getItem("typed_string")
+        text_typed: localStorage.getItem('typed_string'),
+        character_count: 500
       }
       axios.put(API_URL, postBody)
     };
@@ -82,13 +98,13 @@ function TypedText({data}) {
   }
 
   return (
-    <>
+    <div className='typed__container'>
       {/* <div>{typed}</div> */}
       <div>{fourthString}</div>
       <div>{thirdString}</div>
       <div>{secondString}</div>
       <div>{firstString}</div>
-    </>
+    </div>
   )
 }
 
