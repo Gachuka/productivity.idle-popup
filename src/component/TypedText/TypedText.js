@@ -19,11 +19,13 @@ function TypedText({data}) {
   const [ fourthString, setFourthString ] = useState("")
   let typedStr = data.text_typed
   let characterCount = data.character_count
+  let characterCountThisSave = 0
 
   const downHandler = (event) => {
 
+    console.log(gameReady)
     if(!gameReady) {
-      // console.log('gameReady is now True')
+      console.log('gameReady is now True')
       setGameReady(true)
     }
 
@@ -34,10 +36,12 @@ function TypedText({data}) {
 
     typedStr += event.key
     characterCount += 1
+    characterCountThisSave += 1
     // console.log(event.key)
 
     localStorage.setItem('typed_string', typedStr)
     localStorage.setItem('character_count', characterCount)
+    localStorage.setItem('character_count_this_save', characterCountThisSave)
 
     setFirstString(typedStr.slice(-15))
     setSecondString(typedStr.slice(-45, -15))
@@ -45,12 +49,22 @@ function TypedText({data}) {
     setFourthString(typedStr.slice(-105, -75))
   }
 
+  // SAVE FUNCTION WITH TIMER
   const savePeriod = () => {
-    const postBody = {
+    
+    // LOG CURRENT SAVE COUNTER AND RESET
+    console.log(characterCountThisSave)
+    characterCountThisSave = 0
+    localStorage.setItem('character_count_this_save', characterCountThisSave);
+
+    // CREATE PUT BODY
+    const putBody = {
       text_typed: localStorage.getItem('typed_string'),
       character_count: Number(localStorage.getItem('character_count'))
     }
-    axios.put(API_URL, postBody).then((response) => {
+
+    // AXIOS PUT REQUEST
+    axios.put(API_URL, putBody).then((response) => {
       console.log("Success:", response.data)
     }).catch((error) => {
       console.log(error)
@@ -68,6 +82,8 @@ function TypedText({data}) {
     setDataString(data.text_typed)
     setDataChrCount(data.character_count)
     localStorage.setItem('typed_string', data.text_typed)
+    localStorage.setItem('character_count', data.character_count)
+
     setFirstString(dataString.slice(-15))
     setSecondString(dataString.slice(-45, -15))
     setThirdString(dataString.slice(-75, -45))
@@ -77,13 +93,13 @@ function TypedText({data}) {
     return () => {
       window.removeEventListener("keydown", downHandler);
       // window.removeEventListener("keyup", upHandler);
-      const postBody = {
+      const putBody = {
         text_typed: localStorage.getItem('typed_string'),
-        character_count: 500
+        character_count: Number(localStorage.getItem('character_count'))
       }
-      axios.put(API_URL, postBody)
+      axios.put(API_URL, putBody)
     };
-  }, [gameReady, dataString]);
+  }, [gameReady,dataString]);
 
   // if(!firstString || !secondString || !thirdString || !fourthString) {
   //   return <h1> What </h1>
