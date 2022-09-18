@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
 const API_URL = "http://localhost:7878"
+const timerInterval = 5000
 
 function TypedText({data}) {
   
@@ -53,6 +54,7 @@ function TypedText({data}) {
     setSecondString(typedStr.slice(-45, -15))
     setThirdString(typedStr.slice(-75, -45))
     setFourthString(typedStr.slice(-105, -75))
+    setDataChrCount(characterCount)
   }
 
   // AXIOS PUT FUNCTION
@@ -94,7 +96,7 @@ function TypedText({data}) {
     localStorage.setItem('character_count_this_save', characterCountThisSave);
 
     // RESET TIMER
-    setTimeout(() => {savePeriod()}, 5000)
+    setTimeout(() => {savePeriod()}, timerInterval)
   }
 
   useEffect(() => {
@@ -130,7 +132,7 @@ function TypedText({data}) {
     if(gameReady) {
       console.log('Starting Save Interval Timer');
       setTimerReady(true);
-      setTimeout(savePeriod, 5000);
+      setTimeout(savePeriod, timerInterval);
     };
   };
 
@@ -141,6 +143,7 @@ function TypedText({data}) {
       <div>{thirdString}</div>
       <div>{secondString}</div>
       <div>{firstString}</div>
+      <div>{dataChrCount}</div>
     </div>
   )
 }
