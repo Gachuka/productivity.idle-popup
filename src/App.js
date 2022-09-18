@@ -12,7 +12,6 @@ function App() {
   useEffect(() => {
     axios.get(API_URL).then((response) => {
       setData(response.data)
-      console.log(response.data)
     }).catch((error) => {
       console.log(error)
     })
