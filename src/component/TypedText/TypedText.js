@@ -91,11 +91,11 @@ function TypedText({data}) {
 
   if(!timerReady) {
     if(gameReady) {
-      console.log('Starting Save Interval Timer')
-      setTimerReady(true)
-      savePeriod()
-    }
-  }
+      console.log('Starting Save Interval Timer');
+      setTimerReady(true);
+      setTimeout(savePeriod, 10000);
+    };
+  };
 
   return (
     <div className='typed__container'>
