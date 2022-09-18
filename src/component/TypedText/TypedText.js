@@ -50,8 +50,9 @@ function TypedText({data}) {
     window.addEventListener("keydown", downHandler);
     // window.addEventListener("keyup", upHandler);
 
-    setDataString(data)
-    localStorage.setItem('typed_string', data)
+    console.log(data.character_count)
+    setDataString(data.text_typed)
+    localStorage.setItem('typed_string', data.text_typed)
     setFirstString(dataString.slice(-15))
     setSecondString(dataString.slice(-45, -15))
     setThirdString(dataString.slice(-75, -45))
@@ -68,9 +69,9 @@ function TypedText({data}) {
     };
   }, [gameReady, dataString]);
 
-  if(!firstString || !secondString || !thirdString || !fourthString) {
-    return <h1> What </h1>
-  }
+  // if(!firstString || !secondString || !thirdString || !fourthString) {
+  //   return <h1> What </h1>
+  // }
 
   if(!timerReady) {
     if(gameReady) {
