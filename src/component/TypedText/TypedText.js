@@ -49,14 +49,8 @@ function TypedText({data}) {
     setFourthString(typedStr.slice(-105, -75))
   }
 
-  // SAVE FUNCTION WITH TIMER
-  const savePeriod = () => {
-    
-    // LOG CURRENT SAVE COUNTER AND RESET
-    console.log(characterCountThisSave)
-    characterCountThisSave = 0
-    localStorage.setItem('character_count_this_save', characterCountThisSave);
-
+  // AXIOS PUT FUNCTION
+  const axiosPUT = () => {
     // CREATE PUT BODY
     const putBody = {
       text_typed: localStorage.getItem('typed_string'),
@@ -69,6 +63,17 @@ function TypedText({data}) {
     }).catch((error) => {
       console.log(error)
     })
+  }
+
+  // SAVE FUNCTION WITH TIMER
+  const savePeriod = () => {
+    
+    // LOG CURRENT SAVE COUNTER AND RESET
+    console.log(characterCountThisSave)
+    characterCountThisSave = 0
+    localStorage.setItem('character_count_this_save', characterCountThisSave);
+
+    axiosPUT()
     console.log('Game Saved')
 
     setTimeout(() => {savePeriod()}, 10000)
@@ -77,6 +82,7 @@ function TypedText({data}) {
   useEffect(() => {
     console.log('remounted')
     window.addEventListener("keydown", downHandler);
+    window.addEventListener("beforeunload", axiosPUT);
     // window.addEventListener("keyup", upHandler);
 
     setDataString(data.text_typed)
@@ -92,12 +98,8 @@ function TypedText({data}) {
     // Remove event listeners on cleanup
     return () => {
       window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("beforeunload", axiosPUT);
       // window.removeEventListener("keyup", upHandler);
-      const putBody = {
-        text_typed: localStorage.getItem('typed_string'),
-        character_count: Number(localStorage.getItem('character_count'))
-      }
-      axios.put(API_URL, putBody)
     };
   }, [gameReady,dataString]);
 
