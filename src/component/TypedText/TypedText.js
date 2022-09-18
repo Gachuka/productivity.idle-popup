@@ -48,7 +48,7 @@ function TypedText({data}) {
   const savePeriod = () => {
     const postBody = {
       text_typed: localStorage.getItem('typed_string'),
-      character_count: 500
+      character_count: Number(localStorage.getItem('character_count'))
     }
     axios.put(API_URL, postBody).then((response) => {
       console.log("Success:", response.data)
