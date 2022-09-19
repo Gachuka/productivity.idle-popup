@@ -109,7 +109,9 @@ function TypedText({data}) {
     setDataChrCount(data.character_count)
     console.log(data.character_count)
     localStorage.setItem('typed_string', data.text_typed)
+    localStorage.setItem('typed_string_this_save', '')
     localStorage.setItem('character_count', data.character_count)
+    localStorage.setItem('character_count_this_save', 0)
 
     setFirstString(dataString.slice(-15))
     setSecondString(dataString.slice(-45, -15))
