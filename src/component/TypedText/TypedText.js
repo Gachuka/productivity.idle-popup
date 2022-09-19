@@ -6,8 +6,8 @@ const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Ta
 const API_URL = "http://localhost:7878"
 const timerInterval = 5000
 
-function TypedText({data}) {
-  
+function TypedText({data, setCallGet}) {
+
   const [ dataString, setDataString ] = useState("")
   const [ dataChrCount, setDataChrCount ] = useState()
 
@@ -18,10 +18,12 @@ function TypedText({data}) {
   const [ secondString, setSecondString ] = useState("")
   const [ thirdString, setThirdString ] = useState("")
   const [ fourthString, setFourthString ] = useState("")
+
   let typedStr = data.text_typed
   let typedStringThisSave = ''
   let characterCount = data.character_count
   let characterCountThisSave = 0
+  let addPerInput = 0
 
   const downHandler = (event) => {
 
@@ -39,8 +41,8 @@ function TypedText({data}) {
     // ADD CHARACTER OR COUNT TO VARIABLES
     typedStr = localStorage.getItem('typed_string') + event.key;
     typedStringThisSave = localStorage.getItem('typed_string_this_save') + event.key
-    characterCount = Number(localStorage.getItem('character_count')) + 1
-    characterCountThisSave = Number(localStorage.getItem('character_count_this_save')) + 1
+    characterCount = Number(localStorage.getItem('character_count')) + addPerInput
+    characterCountThisSave = Number(localStorage.getItem('character_count_this_save')) + addPerInput
 
     // LOG DYNAMICALLY AS USER TYPE
     localStorage.setItem('key', event.key);
@@ -82,14 +84,14 @@ function TypedText({data}) {
 
   // SAVE FUNCTION WITH TIMER
   const savePeriod = async () => {
-
     // AXIOS PUT TO EXECUTE SAVE
     await axiosPUT()
     console.log('Game Saved')
+
+    // RECALL UPDATED SAVEFILE
+    setCallGet(Date.now())
     
     // LOG CURRENT SAVE COUNTER AND RESET
-    console.log(typedStringThisSave)
-    console.log(characterCountThisSave)
     typedStringThisSave = ''
     characterCountThisSave = 0
     localStorage.setItem('typed_string_this_save', typedStringThisSave);
@@ -104,10 +106,12 @@ function TypedText({data}) {
     window.addEventListener("keydown", downHandler);
     window.addEventListener("beforeunload", axiosPUT);
     // window.addEventListener("keyup", upHandler);
-
+    
     setDataString(data.text_typed)
     setDataChrCount(data.character_count)
-    console.log(data.character_count)
+    addPerInput = data.add_per_input
+    console.log('Total character count:', data.character_count)
+    console.log('Input amount:', data.add_per_input)
     localStorage.setItem('typed_string', data.text_typed)
     localStorage.setItem('typed_string_this_save', '')
     localStorage.setItem('character_count', data.character_count)
@@ -124,7 +128,7 @@ function TypedText({data}) {
       window.removeEventListener("beforeunload", axiosPUT);
       // window.removeEventListener("keyup", upHandler);
     };
-  }, [gameReady,dataString]);
+  }, [data,gameReady,dataString,]);
 
   // if(!firstString || !secondString || !thirdString || !fourthString) {
   //   return <h1> What </h1>

@@ -8,14 +8,16 @@ const API_URL = "http://localhost:7878"
 function App() {
 
   const [ data, setData ] = useState()
+  const [ callGet, setCallGet ] = useState()
 
   useEffect(() => {
+    // setCallGet(false)
     axios.get(API_URL).then((response) => {
       setData(response.data)
     }).catch((error) => {
       console.log(error)
     })
-  },[])
+  },[callGet])
 
   if(!data) {
     return <h1>... Loading ...</h1>
@@ -24,7 +26,7 @@ function App() {
   return (
     <div className="app__container">
       <h1>Things typed</h1>
-      <TypedText data={data} />
+      <TypedText data={data} setCallGet={setCallGet} />
     </div>
   );
 }
