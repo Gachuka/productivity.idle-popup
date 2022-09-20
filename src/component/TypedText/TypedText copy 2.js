@@ -33,96 +33,90 @@ function TypedText({data, setCallGet}) {
   let characterLeftCount = data.character_left
   let addPerInput = 0
 
-  const downHandler = (event) => {
-    
-    if(localStorage.getItem('timer_started') === 'false') {
-      console.log('gameReady is now True')
-      setGameReady(true)
-      localStorage.setItem('timer_started', true)
-    }
+  const downHandler = async (event) => {
 
     if (notLogged.some(string => event.key === string)) {
       console.log("Not Logged");
       return;
     };
 
-    // ADD CHARACTER OR COUNT TO VARIABLES
-    typedStr = localStorage.getItem('typed_string') + event.key;
-    typedStringThisSave = localStorage.getItem('typed_string_this_save') + event.key
-    // characterCount = Number(localStorage.getItem('character_count')) + addPer
-    // characterCountThisSave = Number(localStorage.getItem('character_count_this_save')) + addPer
-    // characterLeftCount = Number(localStorage.getItem('character_left')) + addPer
-    characterCount = Number(localStorage.getItem('character_count')) + addPerInput
-    characterCountThisSave = Number(localStorage.getItem('character_count_this_save')) + addPerInput
-    characterLeftCount = Number(localStorage.getItem('character_left')) + addPerInput
-    
-    // LOG DYNAMICALLY AS USER TYPE
-    localStorage.setItem('key', event.key);
-    localStorage.setItem('typed_string', typedStr)
-    localStorage.setItem('typed_string_this_save', typedStringThisSave);
+    const typedString = localStorage.getItem('typed_string') + event.key
+    const characterCount = Number(localStorage.getItem('character_count')) + addPerInput
+
+    localStorage.setItem('typed_string', typedString)
     localStorage.setItem('character_count', characterCount)
-    localStorage.setItem('character_count_this_save', characterCountThisSave)
-    localStorage.setItem('character_left', characterLeftCount)
-    
-    // SETTING VISUAL VALUES
-    setFirstString(typedStr.slice(-15))
-    setSecondString(typedStr.slice(-45, -15))
-    setThirdString(typedStr.slice(-75, -45))
-    setFourthString(typedStr.slice(-105, -75))
-    setChrCountDisplay(characterLeftCount)
+    localStorage.setItem('character_left', Number(localStorage.getItem('character_left')) + addPerInput)
+    localStorage.setItem('character_count_this_save', Number(localStorage.getItem('character_count_this_save')) + addPerInput)
+
+    const putBody = {
+      character_count: Number(localStorage.getItem('character_count')) + addPerInput,
+      character_left: Number(localStorage.getItem('character_left')) + addPerInput
+    }
+
+    await axios.put(API_URL, putBody)
+    const response = await axios.get(API_URL)
+
+    addPerInput = response.data.add_per_input
+    console.log(addPerInput)
+    setChrCountDisplay(response.data.character_left)
+
+    setFirstString(typedString.slice(-15))
+    setSecondString(typedString.slice(-45, -15))
+    setThirdString(typedString.slice(-75, -45))
+    setFourthString(typedString.slice(-105, -75))
   }
 
   // AXIOS PUT FUNCTION
-  const axiosPUT = async () => {
+  // const axiosPUT = async () => {
     
     // GRAB MOST RECENT DATA IN SAVE
-    const getData = await axios.get(API_URL)
-    console.log('got data:',getData)
+    // const getData = await axios.get(API_URL)
+    // console.log('got data:',getData)
     // const textTypedBody = getData.data.text_typed + localStorage.getItem('typed_string_this_save');
     // const characterCountBody = getData.data.character_count + Number(localStorage.getItem('character_count_this_save'));
-    const textTypedBody = getData.data.text_typed + localStorage.getItem('typed_string_this_save');
-    const characterCountBody = getData.data.character_count + Number(localStorage.getItem('character_count_this_save'));
-    localStorage.setItem('typed_string', textTypedBody);
+    // const textTypedBody = getData.data.text_typed + localStorage.getItem('typed_string_this_save');
+    // const characterCountBody = getData.data.character_count + Number(localStorage.getItem('character_count_this_save'));
+    // localStorage.setItem('typed_string', textTypedBody);
 
     // // CREATE PUT BODY
-    const putBody = {
-      text_typed: textTypedBody,
-      character_count: characterCountBody
-    }
+    // const putBody = {
+    //   text_typed: textTypedBody,
+    //   character_count: characterCountBody
+    // }
 
     // AXIOS PUT REQUEST
-    await axios.put(API_URL, putBody).then((response) => {
-      console.log("Success:", response.data)
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
+    // await axios.put(API_URL, putBody).then((response) => {
+    //   console.log("Success:", response.data)
+    // }).catch((error) => {
+    //   console.log(error)
+    // })
+  // }
 
   // SAVE FUNCTION WITH TIMER
-  const savePeriod = async () => {
-    // AXIOS PUT TO EXECUTE SAVE
+  // const savePeriod = async () => {
+  //   // AXIOS PUT TO EXECUTE SAVE
 
-    await axiosPUT()
-    console.log('Game Saved')
+  //   await axiosPUT()
+  //   console.log('Game Saved')
  
-    // RECALL UPDATED SAVEFILE
-    await setCallGet(Date.now())
+  //   // RECALL UPDATED SAVEFILE
+  //   await setCallGet(Date.now())
     
-    // LOG CURRENT SAVE COUNTER AND RESET
-    typedStringThisSave = ''
-    characterCountThisSave = 0
-    localStorage.setItem('typed_string_this_save', typedStringThisSave);
-    localStorage.setItem('character_count_this_save', characterCountThisSave);
+  //   // LOG CURRENT SAVE COUNTER AND RESET
+  //   typedStringThisSave = ''
+  //   characterCountThisSave = 0
+  //   localStorage.setItem('typed_string_this_save', typedStringThisSave);
+  //   localStorage.setItem('character_count_this_save', characterCountThisSave);
 
-    // RESET TIMER
-    setTimeout(() => {savePeriod()}, timerInterval)
-  }
+  //   // RESET TIMER
+  //   setTimeout(() => {savePeriod()}, timerInterval)
+  // }
 
   // RUN ON MOUNT
   useEffect(() => {
     // console.log('remounted')
     window.addEventListener("keydown", downHandler);
-    window.addEventListener("beforeunload", axiosPUT);
+    // window.addEventListener("beforeunload", axiosPUT);
     // window.addEventListener("keyup", upHandler);
     
     // SETTING SOME DATA
@@ -130,6 +124,10 @@ function TypedText({data, setCallGet}) {
     setDataChrCount(data.character_left)
     // setAddPer(data.character_left)
     addPerInput = data.add_per_input
+    window.onload = () => {
+      addPerInput = data.add_per_input
+    }
+    console.log(addPerInput)
     localStorage.setItem('typed_string', data.text_typed)
     localStorage.setItem('typed_string_this_save', '')
     localStorage.setItem('character_count', data.character_count)
@@ -149,33 +147,33 @@ function TypedText({data, setCallGet}) {
       // window.removeEventListener("beforeunload", axiosPUT);
       // window.removeEventListener("keyup", upHandler);
     };
-  }, [data,dataString]);
+  }, [dataString]);
 
   // USE EFFECT TO START TIMER, RELOAD FOR GAME READY AND DATA REFRESH
   useEffect(() => {
     console.log('uf 2')
-    if(!timerReady) {
-      if(gameReady) {
-        console.log('Starting Save Interval Timer');
-        setTimerReady(true);
-        setTimeout(savePeriod, timerInterval);
-        localStorage.setItem('timer_started', true)
-      };
-    };
+    // if(!timerReady) {
+    //   if(gameReady) {
+    //     console.log('Starting Save Interval Timer');
+    //     setTimerReady(true);
+    //     setTimeout(savePeriod, timerInterval);
+    //     localStorage.setItem('timer_started', true)
+    //   };
+    // };
 
-    window.onunload = () => {
-      localStorage.setItem('timer_started', false);
-      axiosPUT();
-    }
+    // window.onunload = () => {
+    //   localStorage.setItem('timer_started', false);
+    //   // axiosPUT();
+    // }
     setDataChrCount(data.character_left)
     // setAddPer(data.add_per_input)
     // addPerInput = data.adda_per_input
 
     console.log('Total character count:', data.character_count)
     console.log('Input amount:', data.add_per_input)
-    console.log(addPerInput)
+    // console.log(addPerInput)
 
-  },[data,gameReady])
+  },[gameReady])
 
   const handleClick = () => {
     navigate('/upgrade')

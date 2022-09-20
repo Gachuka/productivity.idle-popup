@@ -13,6 +13,7 @@ function App() {
   const [ callGet, setCallGet ] = useState()
 
   useEffect(() => {
+    console.log('app axios')
     // setCallGet(false)
     axios.get(API_URL).then((response) => {
       setData(response.data)
@@ -29,7 +30,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<TypedText data={data} setCallGet={setCallGet} />} />
-        <Route path='/upgrade' element={<UpgradePage data={data} />} />
+        <Route path='/upgrade' element={<UpgradePage data={data} setCallGet={setCallGet} />} />
       </Routes>
     </BrowserRouter>
   );

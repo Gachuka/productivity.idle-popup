@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const API_URL = "http://localhost:7878"
 
-function UpgradePage({data}) {
+function UpgradePage({data, setCallGet}) {
 
   let upgrade1Number = data.upgrade_1
   let upgrade2Number = data.upgrade_2
@@ -18,14 +18,17 @@ function UpgradePage({data}) {
   const handleUpgrade1 = () => {
     console.log('Upgrade One Clicked')
     axios.put(API_URL, {upgrade_1: upgrade1Number += 1})
+    setCallGet(Date.now())
   }
   const handleUpgrade2 = () => {
     console.log('Upgrade Two Clicked')
     axios.put(API_URL, {upgrade_2: upgrade2Number += 1})
+    setCallGet(Date.now())
   }
   const handleUpgrade3 = () => {
     console.log('Upgrade Three Clicked')
     axios.put(API_URL, {upgrade_3: upgrade3Number += 1})
+    setCallGet(Date.now())
   }
 
   return (
