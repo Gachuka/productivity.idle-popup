@@ -10,6 +10,10 @@
     border-radius: 10px;
   }
 
+  &__header {
+    margin-bottom: .25rem;
+  }
+
   &__back {
     border: 2px solid;
     border-radius: 10px;
@@ -20,10 +24,19 @@
 
 .option {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
 
-  &__1 {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: .5rem;
+  }
+  &__cta {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__btn {
     display: flex;
     justify-content: center;
     width: 30%;
