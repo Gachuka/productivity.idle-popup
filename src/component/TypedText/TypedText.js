@@ -2,6 +2,7 @@ import './TypedText.scss'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import UserCurrentStat from '../UserCurrentStat/UserCurrentStat'
 
 const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
 const API_URL = "http://localhost:7878"
@@ -175,7 +176,7 @@ function TypedText({data, setCallGet}) {
       <div className='typed__buttons'>
         <div className='typed__upgrade' onClick={handleClick}>Upgrades</div>
       </div>
-      <div className='typed__placeholder'>Placeholder Box</div>
+      <UserCurrentStat chrCountDisplay={chrCountDisplay}/>
       {/* <div>{typed}</div> */}
       <div className='typed__box'>
         <div>{fourthString}</div>
