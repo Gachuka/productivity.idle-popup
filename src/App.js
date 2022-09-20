@@ -2,6 +2,8 @@ import './App.scss';
 import TypedText from './component/TypedText/TypedText';
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import UpgradePage from './pages/UpgradePage/UpgradePage';
 
 const API_URL = "http://localhost:7878"
 
@@ -24,13 +26,12 @@ function App() {
   }
 
   return (
-    <div className="app__container">
-      <div className='app__buttons'>
-        
-      </div>
-      <div className="app__placeholder">Placeholder Box</div>
-      <TypedText data={data} setCallGet={setCallGet} />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<TypedText data={data} setCallGet={setCallGet} />} />
+        <Route path='/upgrade' element={<UpgradePage data={data} />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -1,5 +1,6 @@
 import './TypedText.scss'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
@@ -7,6 +8,8 @@ const API_URL = "http://localhost:7878"
 const timerInterval = 5000
 
 function TypedText({data, setCallGet}) {
+
+  const navigate = useNavigate()
 
   const [ dataString, setDataString ] = useState("")
   const [ dataChrCount, setDataChrCount ] = useState()
@@ -27,9 +30,8 @@ function TypedText({data, setCallGet}) {
   let addPerInput = 0
 
   const downHandler = (event) => {
-
-    console.log(gameReady)
-    if(!gameReady) {
+    
+    if(!localStorage.getItem('timer_started')) {
       console.log('gameReady is now True')
       setGameReady(true)
     }
@@ -88,6 +90,7 @@ function TypedText({data, setCallGet}) {
   // SAVE FUNCTION WITH TIMER
   const savePeriod = async () => {
     // AXIOS PUT TO EXECUTE SAVE
+
     await axiosPUT()
     console.log('Game Saved')
  
@@ -104,6 +107,7 @@ function TypedText({data, setCallGet}) {
     setTimeout(() => {savePeriod()}, timerInterval)
   }
 
+  // RUN ON MOUNT
   useEffect(() => {
     console.log('remounted')
     window.addEventListener("keydown", downHandler);
@@ -135,6 +139,10 @@ function TypedText({data, setCallGet}) {
     };
   }, [data,gameReady,dataString]);
 
+  const handleClick = () => {
+    navigate('/upgrade')
+  }
+
   // if(!firstString || !secondString || !thirdString || !fourthString) {
   //   return <h1> What </h1>
   // }
@@ -144,11 +152,16 @@ function TypedText({data, setCallGet}) {
       console.log('Starting Save Interval Timer');
       setTimerReady(true);
       setTimeout(savePeriod, timerInterval);
+      localStorage.setItem('timer_started', true)
     };
   };
 
   return (
     <div className='typed__container'>
+      <div className='typed__buttons'>
+        <div className='typed__upgrade' onClick={handleClick}>Upgrades</div>
+      </div>
+      <div className='typed__placeholder'>Placeholder Box</div>
       {/* <div>{typed}</div> */}
       <div>{fourthString}</div>
       <div>{thirdString}</div>
