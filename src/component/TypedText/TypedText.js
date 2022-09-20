@@ -21,19 +21,21 @@ function TypedText({data, setCallGet}) {
   const [ secondString, setSecondString ] = useState("")
   const [ thirdString, setThirdString ] = useState("")
   const [ fourthString, setFourthString ] = useState("")
+  const [ chrCountDisplay, setChrCountDisplay ] = useState()
 
   let typedStr = data.text_typed
   let typedStringThisSave = ''
   let characterCount = data.character_count
   let characterCountThisSave = 0
-  let characterLeftCount = 0
+  let characterLeftCount = data.character_left
   let addPerInput = 0
 
   const downHandler = (event) => {
     
-    if(!localStorage.getItem('timer_started')) {
+    if(localStorage.getItem('timer_started') === 'false') {
       console.log('gameReady is now True')
       setGameReady(true)
+      localStorage.setItem('timer_started', true)
     }
 
     if (notLogged.some(string => event.key === string)) {
@@ -61,7 +63,7 @@ function TypedText({data, setCallGet}) {
     setSecondString(typedStr.slice(-45, -15))
     setThirdString(typedStr.slice(-75, -45))
     setFourthString(typedStr.slice(-105, -75))
-    setDataChrCount(characterLeftCount)
+    setChrCountDisplay(characterLeftCount)
   }
 
   // AXIOS PUT FUNCTION
@@ -80,7 +82,7 @@ function TypedText({data, setCallGet}) {
     }
 
     // AXIOS PUT REQUEST
-    axios.put(API_URL, putBody).then((response) => {
+    await axios.put(API_URL, putBody).then((response) => {
       console.log("Success:", response.data)
     }).catch((error) => {
       console.log(error)
@@ -112,13 +114,13 @@ function TypedText({data, setCallGet}) {
     console.log('remounted')
     window.addEventListener("keydown", downHandler);
     window.addEventListener("beforeunload", axiosPUT);
+
     // window.addEventListener("keyup", upHandler);
     
     setDataString(data.text_typed)
     setDataChrCount(data.character_left)
     addPerInput = data.add_per_input
-    console.log('Total character count:', data.character_count)
-    console.log('Input amount:', data.add_per_input)
+
     localStorage.setItem('typed_string', data.text_typed)
     localStorage.setItem('typed_string_this_save', '')
     localStorage.setItem('character_count', data.character_count)
@@ -129,15 +131,37 @@ function TypedText({data, setCallGet}) {
     setSecondString(dataString.slice(-45, -15))
     setThirdString(dataString.slice(-75, -45))
     setFourthString(dataString.slice(-105, -75))
-
+    setChrCountDisplay(dataChrCount)
 
     // Remove event listeners on cleanup
     return () => {
+      console.log('unmounted')
       window.removeEventListener("keydown", downHandler);
-      window.removeEventListener("beforeunload", axiosPUT);
+      // window.removeEventListener("beforeunload", axiosPUT);
       // window.removeEventListener("keyup", upHandler);
     };
-  }, [data,gameReady,dataString]);
+  }, [dataString,dataChrCount]);
+
+  // USE EFFECT TO RELOAD FOR GAME READY AND DATA REFRESH
+  useEffect(() => {
+    if(!timerReady) {
+      if(gameReady) {
+        console.log('Starting Save Interval Timer');
+        setTimerReady(true);
+        setTimeout(savePeriod, timerInterval);
+        localStorage.setItem('timer_started', true)
+      };
+    };
+
+    window.onunload = () => {
+      localStorage.setItem('timer_started', false);
+      axiosPUT();
+    }
+
+    console.log('Total character count:', data.character_count)
+    console.log('Input amount:', data.add_per_input)
+    
+  },[data,gameReady])
 
   const handleClick = () => {
     navigate('/upgrade')
@@ -147,14 +171,14 @@ function TypedText({data, setCallGet}) {
   //   return <h1> What </h1>
   // }
 
-  if(!timerReady) {
-    if(gameReady) {
-      console.log('Starting Save Interval Timer');
-      setTimerReady(true);
-      setTimeout(savePeriod, timerInterval);
-      localStorage.setItem('timer_started', true)
-    };
-  };
+  // if(!timerReady) {
+  //   if(gameReady) {
+  //     console.log('Starting Save Interval Timer');
+  //     setTimerReady(true);
+  //     setTimeout(savePeriod, timerInterval);
+  //     localStorage.setItem('timer_started', true)
+  //   };
+  // };
 
   return (
     <div className='typed__container'>
@@ -169,7 +193,7 @@ function TypedText({data, setCallGet}) {
         <div>{secondString}</div>
         <div>{firstString}</div>
       </div>
-      <div>{dataChrCount}</div>
+      <div>{chrCountDisplay}</div>
     </div>
   )
 }
