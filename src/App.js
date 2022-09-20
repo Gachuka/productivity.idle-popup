@@ -25,7 +25,10 @@ function App() {
 
   return (
     <div className="app__container">
-      <h1>Things typed</h1>
+      <div className='app__buttons'>
+        
+      </div>
+      <div className="app__placeholder">Placeholder Box</div>
       <TypedText data={data} setCallGet={setCallGet} />
     </div>
   );
