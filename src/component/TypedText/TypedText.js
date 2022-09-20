@@ -163,10 +163,12 @@ function TypedText({data, setCallGet}) {
       </div>
       <div className='typed__placeholder'>Placeholder Box</div>
       {/* <div>{typed}</div> */}
-      <div>{fourthString}</div>
-      <div>{thirdString}</div>
-      <div>{secondString}</div>
-      <div>{firstString}</div>
+      <div className='typed__box'>
+        <div>{fourthString}</div>
+        <div>{thirdString}</div>
+        <div>{secondString}</div>
+        <div>{firstString}</div>
+      </div>
       <div>{dataChrCount}</div>
     </div>
   )
