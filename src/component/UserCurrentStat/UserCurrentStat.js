@@ -1,6 +1,13 @@
 import './UserCurrentStat.scss'
 
 function UserCurrentStat({chrCountDisplay}) {
+
+  let percent = (750/800)*100
+
+  const progressStyle = {
+    width: `${percent}%`,
+  }
+
   return (
     <div className='stat'>
       <div className='stat__container'>
@@ -12,7 +19,7 @@ function UserCurrentStat({chrCountDisplay}) {
             </div>
             <div className='user__expbar expbar'>
               <div className='expbar__bar'></div>
-              <div className='expbar__progress'></div>
+              <div className='expbar__progress' style={progressStyle}></div>
             </div>
           </div>
           <div className='user__count count'>
