@@ -23,6 +23,7 @@ function TypedText({data, setCallGet}) {
   let typedStringThisSave = ''
   let characterCount = data.character_count
   let characterCountThisSave = 0
+  let characterLeftCount = 0
   let addPerInput = 0
 
   const downHandler = (event) => {
@@ -43,20 +44,22 @@ function TypedText({data, setCallGet}) {
     typedStringThisSave = localStorage.getItem('typed_string_this_save') + event.key
     characterCount = Number(localStorage.getItem('character_count')) + addPerInput
     characterCountThisSave = Number(localStorage.getItem('character_count_this_save')) + addPerInput
-
+    characterLeftCount = Number(localStorage.getItem('character_left')) + addPerInput
+    
     // LOG DYNAMICALLY AS USER TYPE
     localStorage.setItem('key', event.key);
     localStorage.setItem('typed_string', typedStr)
     localStorage.setItem('typed_string_this_save', typedStringThisSave);
     localStorage.setItem('character_count', characterCount)
     localStorage.setItem('character_count_this_save', characterCountThisSave)
-
+    localStorage.setItem('character_left', characterLeftCount)
+    
     // SETTING VISUAL VALUES
     setFirstString(typedStr.slice(-15))
     setSecondString(typedStr.slice(-45, -15))
     setThirdString(typedStr.slice(-75, -45))
     setFourthString(typedStr.slice(-105, -75))
-    setDataChrCount(characterCount)
+    setDataChrCount(characterLeftCount)
   }
 
   // AXIOS PUT FUNCTION
@@ -87,9 +90,9 @@ function TypedText({data, setCallGet}) {
     // AXIOS PUT TO EXECUTE SAVE
     await axiosPUT()
     console.log('Game Saved')
-
+ 
     // RECALL UPDATED SAVEFILE
-    setCallGet(Date.now())
+    await setCallGet(Date.now())
     
     // LOG CURRENT SAVE COUNTER AND RESET
     typedStringThisSave = ''
@@ -108,7 +111,7 @@ function TypedText({data, setCallGet}) {
     // window.addEventListener("keyup", upHandler);
     
     setDataString(data.text_typed)
-    setDataChrCount(data.character_count)
+    setDataChrCount(data.character_left)
     addPerInput = data.add_per_input
     console.log('Total character count:', data.character_count)
     console.log('Input amount:', data.add_per_input)
@@ -116,11 +119,13 @@ function TypedText({data, setCallGet}) {
     localStorage.setItem('typed_string_this_save', '')
     localStorage.setItem('character_count', data.character_count)
     localStorage.setItem('character_count_this_save', 0)
+    localStorage.setItem('character_left', data.character_left)
 
     setFirstString(dataString.slice(-15))
     setSecondString(dataString.slice(-45, -15))
     setThirdString(dataString.slice(-75, -45))
     setFourthString(dataString.slice(-105, -75))
+
 
     // Remove event listeners on cleanup
     return () => {
@@ -128,7 +133,7 @@ function TypedText({data, setCallGet}) {
       window.removeEventListener("beforeunload", axiosPUT);
       // window.removeEventListener("keyup", upHandler);
     };
-  }, [data,gameReady,dataString,]);
+  }, [data,gameReady,dataString]);
 
   // if(!firstString || !secondString || !thirdString || !fourthString) {
   //   return <h1> What </h1>
