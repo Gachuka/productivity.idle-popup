@@ -114,13 +114,12 @@ function TypedText({data, setCallGet}) {
     console.log('remounted')
     window.addEventListener("keydown", downHandler);
     window.addEventListener("beforeunload", axiosPUT);
-
     // window.addEventListener("keyup", upHandler);
     
+    // SETTING SOME DATA
     setDataString(data.text_typed)
     setDataChrCount(data.character_left)
     addPerInput = data.add_per_input
-
     localStorage.setItem('typed_string', data.text_typed)
     localStorage.setItem('typed_string_this_save', '')
     localStorage.setItem('character_count', data.character_count)
@@ -142,7 +141,7 @@ function TypedText({data, setCallGet}) {
     };
   }, [dataString,dataChrCount]);
 
-  // USE EFFECT TO RELOAD FOR GAME READY AND DATA REFRESH
+  // USE EFFECT TO START TIMER, RELOAD FOR GAME READY AND DATA REFRESH
   useEffect(() => {
     if(!timerReady) {
       if(gameReady) {
@@ -160,7 +159,7 @@ function TypedText({data, setCallGet}) {
 
     console.log('Total character count:', data.character_count)
     console.log('Input amount:', data.add_per_input)
-    
+
   },[data,gameReady])
 
   const handleClick = () => {
@@ -170,15 +169,6 @@ function TypedText({data, setCallGet}) {
   // if(!firstString || !secondString || !thirdString || !fourthString) {
   //   return <h1> What </h1>
   // }
-
-  // if(!timerReady) {
-  //   if(gameReady) {
-  //     console.log('Starting Save Interval Timer');
-  //     setTimerReady(true);
-  //     setTimeout(savePeriod, timerInterval);
-  //     localStorage.setItem('timer_started', true)
-  //   };
-  // };
 
   return (
     <div className='typed__container'>
