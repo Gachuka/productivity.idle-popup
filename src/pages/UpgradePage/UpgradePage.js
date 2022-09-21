@@ -40,7 +40,7 @@ function UpgradePage() {
   }
   const handleUpgrade3 = () => {
     console.log('Upgrade Three Clicked')
-    axios.put(API_URL, {upgrade_3: upgrade3 += 1})
+    axios.put(API_URL, {upgrade_3: upgrade3 + 1})
     setReload(Date.now())
   }
 
