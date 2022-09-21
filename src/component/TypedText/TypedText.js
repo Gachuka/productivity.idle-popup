@@ -117,6 +117,10 @@ function TypedText() {
     localStorage.setItem('is_saving', true)
   }
 
+  if(!textString) {
+    return <h1>Loading</h1>
+  }
+
   return (
     <div className='typed__container'>
       <div className='typed__buttons'>
