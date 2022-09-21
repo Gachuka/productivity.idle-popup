@@ -20,7 +20,7 @@ function App() {
     }).catch((error) => {
       console.log(error)
     })
-  },[callGet])
+  },[])
 
   if(!data) {
     return <h1>... Loading ...</h1>

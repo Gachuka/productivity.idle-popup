@@ -76,6 +76,7 @@ function TypedText() {
     return () => {
       console.log('unmounted')
       window.removeEventListener('keydown', downHandler)
+      // localStorage.setItem('is_saving', false);
     }
   },[])
 
@@ -94,7 +95,9 @@ function TypedText() {
       localStorage.setItem('typed_string_this_save', '')
       return axios.get(API_URL)
     }).then((response) => {
+      console.log('got recent save data')
       setTextString(response.data.text_typed)
+      console.log(response.data.text_typed)
       setCharacterLeftCount(response.data.character_left)
     }).catch((error) => {
       console.log(error)
@@ -110,7 +113,7 @@ function TypedText() {
   }
 
   if (localStorage.getItem('is_saving') === 'false') {
-    setInterval(savePeriod, 5000)
+    setInterval(savePeriod, timerInterval)
     localStorage.setItem('is_saving', true)
   }
 
