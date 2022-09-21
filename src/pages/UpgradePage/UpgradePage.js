@@ -9,21 +9,19 @@ function UpgradePage() {
 
   const [ upgrade1, setUpgrade1 ] = useState(0)
   const [ upgrade2, setUpgrade2 ] = useState(0)
+  const [ upgrade3, setUpgrade3 ] = useState(0)
   const [ reload, setReload ] = useState(0)
 
   useEffect(() => {
     axios.get(API_URL).then((response) => {
       setUpgrade1(response.data.upgrade_1)
       setUpgrade2(response.data.upgrade_2)
+      setUpgrade3(response.data.upgrade_3)
     }).catch((error) => {
       console.log(error)
     })
   },[reload])
   
-
-  // let upgrade1Number = data.upgrade_1
-  // let upgrade2Number = data.upgrade_2
-  // let upgrade3Number = data.upgrade_3
   const navigate = useNavigate()
 
   const handleBack = () => {
@@ -40,10 +38,11 @@ function UpgradePage() {
     axios.put(API_URL, {upgrade_2: upgrade2 + 1})
     setReload(Date.now())
   }
-  // const handleUpgrade3 = () => {
-  //   console.log('Upgrade Three Clicked')
-  //   axios.put(API_URL, {upgrade_3: upgrade3Number += 1})
-  // }
+  const handleUpgrade3 = () => {
+    console.log('Upgrade Three Clicked')
+    axios.put(API_URL, {upgrade_3: upgrade3 += 1})
+    setReload(Date.now())
+  }
 
   return (
     <section className='upgrade__container'>
@@ -66,7 +65,7 @@ function UpgradePage() {
         <div className='option__container'>
           <div className='option__cta'>
             <span>Type Bot:</span>
-            <div className='option__3' >750</div>
+            <div className='option__3' onClick={handleUpgrade3}>750</div>
           </div>
           <p>Types one letter per interval</p>
         </div>
