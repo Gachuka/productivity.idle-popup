@@ -10,16 +10,12 @@ const timerInterval = 5000
 
 function TypedText() {
 
+  console.log('TypedText Mounted')
+
   const [ saveData, setSaveData ] = useState(null)
 
   const [ textString, setTextString ] = useState('')
-  // const [ characterCountThisSave, setCharacterCountThisSave ] = useState(0)
   const [ characterLeftCount, setCharacterLeftCount ] = useState(0)
-  // const [ addPerInput, setAddPerInput ] = useState(0)
-  // const [ firstString, setFirstString ] = useState('')
-  // const [ secondString, setSecondString ] = useState('')
-  // const [ thirdString, setThirdString ] = useState('')
-  // const [ fourthString, setFourthString ] = useState('')
 
   const navigate = useNavigate()
 
@@ -68,58 +64,56 @@ function TypedText() {
       localStorage.setItem('character_left', response.data.character_left)
       localStorage.setItem('add_per_input', response.data.add_per_input)
 
-    }).then(() => {
     }).catch((error) => {
       console.log(error)
-    })
+    });
 
     return () => {
-      console.log('unmounted')
-      window.removeEventListener('keydown', downHandler)
-      // localStorage.setItem('is_saving', false);
-    }
-  },[])
+      console.log('unmounted');
+      window.removeEventListener('keydown', downHandler);
+    };
+  },[]);
 
   const savePeriod = () => {
-    console.log('saved')
+    console.log('saved');
     axios.get(API_URL).then((response) => {
-      console.log('first Get')
+      console.log('first Get');
       const putBody = {
         text_typed: response.data.text_typed + localStorage.getItem('typed_string_this_save'),
         character_count: response.data.character_count + Number(localStorage.getItem('character_count_this_save'))
-      }
-      return axios.put(API_URL, putBody)
+      };
+      return axios.put(API_URL, putBody);
     }).then((response) => {
-      console.log(response.data)
-      localStorage.setItem('character_count_this_save', 0)
-      localStorage.setItem('typed_string_this_save', '')
-      return axios.get(API_URL)
+      console.log(response.data);
+      localStorage.setItem('character_count_this_save', 0);
+      localStorage.setItem('typed_string_this_save', '');
+      return axios.get(API_URL);
     }).then((response) => {
-      console.log('got recent save data')
-      setTextString(response.data.text_typed)
-      console.log(response.data.text_typed)
-      setCharacterLeftCount(response.data.character_left)
+      console.log('got recent save data');
+      setTextString(response.data.text_typed);
+      console.log(response.data.text_typed);
+      setCharacterLeftCount(response.data.character_left);
     }).catch((error) => {
-      console.log(error)
+      console.log(error);
     })
   }
 
   useEffect(() => {
-    console.log('Reload')
-  },[textString, characterLeftCount])
+    console.log('Reload');
+  },[textString, characterLeftCount]);
 
   const handleClick = () => {
-    navigate('/upgrade')
-  }
+    navigate('/upgrade');
+  };
 
   if (localStorage.getItem('is_saving') === 'false') {
-    setInterval(savePeriod, timerInterval)
-    localStorage.setItem('is_saving', true)
-  }
+    setInterval(savePeriod, timerInterval);
+    localStorage.setItem('is_saving', true);
+  };
 
-  if(!textString) {
+  if(!textString || !saveData) {
     return <h1>Loading</h1>
-  }
+  };
 
   return (
     <div className='typed__container'>
@@ -136,7 +130,7 @@ function TypedText() {
       </div>
       <div>{characterLeftCount}</div>
     </div>
-  )
-}
+  );
+};
 
 export default TypedText;
