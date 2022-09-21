@@ -46,7 +46,7 @@ function UpgradePage() {
 
   return (
     <section className='upgrade__container'>
-      <h1 className='upgrade__header'>UpgradePage</h1>
+      <h1 className='upgrade__header'>Upgrades</h1>
       <div className='upgrade__options option'>
         <div className='option__container'>
           <div className='option__cta'>
@@ -58,18 +58,17 @@ function UpgradePage() {
         <div className='option__container'>
           <div className='option__cta'>
             <span>Magic Double:</span>
-            <div className='option__2' onClick={handleUpgrade2}>1000</div>
+            <div className='option__btn' onClick={handleUpgrade2}>1000</div>
           </div>
           <p>Doubles every input</p>
         </div>
         <div className='option__container'>
           <div className='option__cta'>
             <span>Type Bot:</span>
-            <div className='option__3' onClick={handleUpgrade3}>750</div>
+            <div className='option__btn' onClick={handleUpgrade3}>750</div>
           </div>
           <p>Types one letter per interval</p>
         </div>
-        
       </div>
       <div className='upgrade__back' onClick={handleBack}>Back</div>
     </section>

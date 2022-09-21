@@ -1,4 +1,4 @@
-.upgrade {
+.stats {
   &__container {
     display: flex;
     flex-direction: column;
@@ -23,26 +23,10 @@
   }
 }
 
-.option {
-  display: flex;
-  flex-direction: column;
+.table {
   width: 100%;
-
-  &__container {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: .5rem;
-  }
-  &__cta {
+  &__section {
     display: flex;
     justify-content: space-between;
-  }
-  &__btn {
-    display: flex;
-    justify-content: center;
-    width: 30%;
-    border: 2px solid;
-    border-radius: 10px;
-    cursor: pointer;
   }
 }

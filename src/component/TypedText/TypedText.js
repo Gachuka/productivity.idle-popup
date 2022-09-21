@@ -102,8 +102,11 @@ function TypedText() {
     console.log('Reload');
   },[textString, characterLeftCount]);
 
-  const handleClick = () => {
+  const handleUpgrade = () => {
     navigate('/upgrade');
+  };
+  const handleStats = () => {
+    navigate('/stats');
   };
 
   if (localStorage.getItem('is_saving') === 'false') {
@@ -118,7 +121,8 @@ function TypedText() {
   return (
     <div className='typed__container'>
       <div className='typed__buttons'>
-        <div className='typed__upgrade' onClick={handleClick}>Upgrades</div>
+        <div className='typed__upgrade' onClick={handleUpgrade}>Upgrades</div>
+        <div className='typed__stats' onClick={handleStats}>Stats</div>
       </div>
       <UserCurrentStat chrCountDisplay={characterLeftCount}/>
       {/* <div>{typed}</div> */}
