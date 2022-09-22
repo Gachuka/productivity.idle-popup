@@ -11,14 +11,12 @@ const timerInterval = 5000
 function TypedText() {
 
   console.log('TypedText Mounted')
-
-  const [ saveData, setSaveData ] = useState(null)
-
+  const [ saveData, setSaveData ] = useState([])
   const [ textString, setTextString ] = useState('')
   const [ characterLeftCount, setCharacterLeftCount ] = useState(0)
-
   const navigate = useNavigate()
 
+  // ACTION ON EVERY KEY PRESS
   const downHandler = (event) => {
 
     if (notLogged.some(string => event.key === string)) {
@@ -42,6 +40,7 @@ function TypedText() {
     localStorage.setItem('character_left', countLeftAdded)
   }
 
+  // FIRST GET AND SET DATA
   useEffect(() => {
     console.log('mounted')
     window.addEventListener('keydown', downHandler)
@@ -50,7 +49,6 @@ function TypedText() {
     }
 
     axios.get(API_URL).then((response) => {
-      console.log(response.data)
 
       setSaveData(response.data)
       setTextString(response.data.text_typed)
@@ -74,22 +72,23 @@ function TypedText() {
     };
   },[]);
 
+  // SAVE FUNCTION
   const savePeriod = () => {
     console.log('saved');
     axios.get(API_URL).then((response) => {
       console.log('first Get');
       const putBody = {
-        text_typed: response.data.text_typed + localStorage.getItem('typed_string_this_save'),
+        text_typed: localStorage.getItem('typed_string_this_save'),
         character_count: response.data.character_count + Number(localStorage.getItem('character_count_this_save'))
       };
+      console.log(putBody)
       return axios.put(API_URL, putBody);
     }).then((response) => {
-      console.log(response.data);
+      console.log(response);
       localStorage.setItem('character_count_this_save', 0);
       localStorage.setItem('typed_string_this_save', '');
       return axios.get(API_URL);
     }).then((response) => {
-      console.log('got recent save data');
       setTextString(response.data.text_typed);
       console.log(response.data.text_typed);
       setCharacterLeftCount(response.data.character_left);
@@ -98,10 +97,12 @@ function TypedText() {
     })
   }
 
+  // USEEFFECT TO CHECK RELOAD
   useEffect(() => {
     console.log('Reload');
   },[textString, characterLeftCount]);
 
+  // PAGE CHANGE
   const handleUpgrade = () => {
     navigate('/upgrade');
   };
@@ -109,12 +110,14 @@ function TypedText() {
     navigate('/stats');
   };
 
-  if (localStorage.getItem('is_saving') === 'false') {
+  // DO CHECK IF THERE IS DATA AND TIMER NOT STARTED YET
+  if (localStorage.getItem('is_saving') === 'false' && saveData) {
     setInterval(savePeriod, timerInterval);
     localStorage.setItem('is_saving', true);
   };
 
-  if(!textString || !saveData) {
+  // LOADING STATE WHEN THERE IS NO DATA
+  if(textString === undefined) {
     return <h1>Loading</h1>
   };
 
