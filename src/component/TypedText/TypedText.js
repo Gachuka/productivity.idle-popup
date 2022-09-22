@@ -49,7 +49,7 @@ function TypedText() {
     }
 
     axios.get(API_URL).then((response) => {
-
+      console.log(response)
       setSaveData(response.data)
       setTextString(response.data.text_typed)
       setCharacterLeftCount(response.data.character_left)
@@ -120,6 +120,8 @@ function TypedText() {
   if(textString === undefined) {
     return <h1>Loading</h1>
   };
+
+  console.log(saveData)
 
   return (
     <div className='typed__container'>
