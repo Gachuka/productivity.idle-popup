@@ -132,10 +132,12 @@ function TypedText() {
       <UserCurrentStat chrCountDisplay={characterLeftCount}/>
       {/* <div>{typed}</div> */}
       <div className='typed__box'>
-        <div>{textString.slice(-105,-75)}</div>
-        <div>{textString.slice(-75,-45)}</div>
-        <div>{textString.slice(-45,-15)}</div>
-        <div>{textString.slice(-15)}</div>
+        <div className='typed__area4' dir='rtl'>{textString.slice(-105,-75)}</div>
+        <div className='typed__area3' dir='rtl'>{textString.slice(-75,-45)}</div>
+        <div className='typed__area2' dir='rtl'>{textString.slice(-45,-15)}</div>
+        <div className='typed__area1' dir='rtl'>{textString.slice(-15)}</div>
+        <div className='typed__cursor'></div>
+        <div className='typed__spacer'></div>
       </div>
       <div>{characterLeftCount}</div>
     </div>

@@ -41,7 +41,50 @@
   }
   
   &__box {
+    height: 5rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100fr 2fr 98fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-areas: 
+      "text4 text4 text4"
+      "text3 text3 text3"
+      "text2 text2 text2"
+      "text1 cursor spacer"
+    ;
     margin-bottom: .5rem;
-    
+  }
+
+  &__area4 {
+    grid-area: text4;
+  }
+  &__area3 {
+    grid-area: text3;
+  }
+  &__area2 {
+    grid-area: text2;
+  }
+  &__area1 {
+    grid-area: text1;
+  }
+  &__cursor {
+    grid-area: cursor;
+    background-color: black;
+    border-radius: 1rem;
+    animation: blink 1s infinite;
+  }
+  
+  &__spacer {
+    grid-area: spacer;
+    width: 50%;
+  }
+}
+
+@keyframes blink {
+  0%, 24%, 75%, 100% {
+    opacity: 1;
+  }
+  25%, 74% {
+    opacity: 0;
   }
 }
