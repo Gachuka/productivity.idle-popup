@@ -15,11 +15,7 @@
   }
 
   &__back {
-    border: 2px solid;
-    border-radius: 10px;
-    padding: 0 .5rem;
     margin-top: auto;
-    cursor: pointer;
   }
 }
 
@@ -36,13 +32,5 @@
   &__cta {
     display: flex;
     justify-content: space-between;
-  }
-  &__btn {
-    display: flex;
-    justify-content: center;
-    width: 30%;
-    border: 2px solid;
-    border-radius: 10px;
-    cursor: pointer;
   }
 }

@@ -12,10 +12,7 @@ function UserCurrentStat({chrCountDisplay}) {
     }
   }
 
-  console.log(expPerLevel[checkLevel(chrCountDisplay)-1])
-
   let currentLevel = checkLevel(chrCountDisplay)
-  
   let percent = ((chrCountDisplay-expPerLevel[checkLevel(chrCountDisplay)-1])/(expPerLevel[checkLevel(chrCountDisplay)]-expPerLevel[checkLevel(chrCountDisplay)-1]))*100
 
   const progressStyle = {

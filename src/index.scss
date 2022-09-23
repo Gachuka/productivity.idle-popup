@@ -10,22 +10,9 @@ body {
   margin: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 h1, h2, h3, h4, p, span, li, ul, a {
   margin: 0;
   padding: 0;
-}
-
-h1 {
-  font-size: 1.5rem;
-}
-
-p, span {
-  font-size: 1rem;
 }
 
 li {
@@ -34,4 +21,12 @@ li {
 
 a {
   text-decoration: none;
+  color: black;
+  margin: 0;
+  border: 0;
+}
+
+button {
+  font-family: $font-stack;
+  padding: 0;
 }

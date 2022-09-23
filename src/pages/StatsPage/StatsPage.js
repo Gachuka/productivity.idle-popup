@@ -1,13 +1,11 @@
 import './StatsPage.scss'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 const API_URL = "http://localhost:7878"
 
 function StatsPage() {
-
-  const navigate = useNavigate()
 
   const [ data, setData ] = useState(null)
 
@@ -19,10 +17,6 @@ function StatsPage() {
       console.log(error)
     })
   },[])
-
-  const handleBack = () => {
-    navigate('/')
-  }
 
   if(!data) {
     return <h1>Loading</h1>
@@ -57,7 +51,7 @@ function StatsPage() {
           <span>{data.add_per_input}</span>
         </div>
       </div>
-      <div className='stats__back' onClick={handleBack}>Back</div>
+      <Link className='stats__back link' to='/'>Back</Link>
     </section>
   )
 }

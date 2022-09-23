@@ -1,6 +1,6 @@
 import './TypedText.scss'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 import UserCurrentStat from '../UserCurrentStat/UserCurrentStat'
 
@@ -10,7 +10,6 @@ const timerInterval = 5000
 
 function TypedText() {
 
-  console.log('TypedText Mounted')
   const [ saveData, setSaveData ] = useState([])
   const [ textString, setTextString ] = useState('')
   const [ characterLeftCount, setCharacterLeftCount ] = useState(0)
@@ -103,7 +102,7 @@ function TypedText() {
   },[textString, characterLeftCount]);
 
   // PAGE CHANGE
-  const handleUpgrade = () => {
+  const handleUpgrade = (event) => {
     navigate('/upgrade');
   };
   const handleStats = () => {
@@ -121,25 +120,26 @@ function TypedText() {
     return <h1>Loading</h1>
   };
 
-  console.log(saveData)
-
   return (
     <div className='typed__container'>
       <div className='typed__buttons'>
-        <div className='typed__upgrade' onClick={handleUpgrade}>Upgrades</div>
-        <div className='typed__stats' onClick={handleStats}>Stats</div>
+        {/* <div className='typed__upgrade' onClick={handleUpgrade}>Upgrades</div>
+        <div className='typed__stats' onClick={handleStats}>Stats</div> */}
+        {/* <ButtonComponent value={'Upgrades'} onClick={handleUpgrade} /> */}
+        <Link className='typed__upgrade link' to='/upgrade'>Upgrades</Link>
+        <Link className='typed__stats link' to='/stats'>Stats</Link>
       </div>
       <UserCurrentStat chrCountDisplay={characterLeftCount}/>
       {/* <div>{typed}</div> */}
       <div className='typed__box'>
-        <div className='typed__area4' dir='rtl'>{textString.slice(-105,-75)}</div>
-        <div className='typed__area3' dir='rtl'>{textString.slice(-75,-45)}</div>
-        <div className='typed__area2' dir='rtl'>{textString.slice(-45,-15)}</div>
-        <div className='typed__area1' dir='rtl'>{textString.slice(-15)}</div>
-        <div className='typed__cursor'></div>
-        <div className='typed__spacer'></div>
+        <span className='typed__area4' dir='rtl'>{textString.slice(-105,-75)}</span>
+        <span className='typed__area3' dir='rtl'>{textString.slice(-75,-45)}</span>
+        <span className='typed__area2' dir='rtl'>{textString.slice(-45,-15)}</span>
+        <span className='typed__area1' dir='rtl'>{textString.slice(-15)}</span>
+        <span className='typed__cursor'></span>
+        <span className='typed__spacer'></span>
       </div>
-      <div>{characterLeftCount}</div>
+      <span>{characterLeftCount}</span>
     </div>
   );
 };

@@ -1,7 +1,8 @@
 import './UpgradePage.scss'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import ButtonComponent from '../../component/ButtonComponent/ButtonComponent'
 
 const API_URL = "http://localhost:7878"
 
@@ -22,12 +23,6 @@ function UpgradePage() {
     })
   },[reload])
   
-  const navigate = useNavigate()
-
-  const handleBack = () => {
-    navigate('/')
-  }
-
   const handleUpgrade1 = () => {
     console.log('Upgrade One Clicked')
     axios.put(API_URL, {upgrade_1: upgrade1 + 1})
@@ -51,26 +46,26 @@ function UpgradePage() {
         <div className='option__container'>
           <div className='option__cta'>
             <span>Magic Finger:</span>
-            <div className='option__btn' onClick={handleUpgrade1}>500</div>
+            <ButtonComponent value='500' onClickHandler={handleUpgrade1} /> 
           </div>
           <p>Add one extra letter per input</p>
         </div>
         <div className='option__container'>
           <div className='option__cta'>
             <span>Magic Double:</span>
-            <div className='option__btn' onClick={handleUpgrade2}>1000</div>
+            <ButtonComponent value='1000' onClickHandler={handleUpgrade2} /> 
           </div>
           <p>Doubles every input</p>
         </div>
         <div className='option__container'>
           <div className='option__cta'>
             <span>Type Bot:</span>
-            <div className='option__btn' onClick={handleUpgrade3}>750</div>
+            <ButtonComponent value='750' onClickHandler={handleUpgrade3} /> 
           </div>
           <p>Types one letter per interval</p>
         </div>
       </div>
-      <div className='upgrade__back' onClick={handleBack}>Back</div>
+      <Link className='upgrade__back link' to='/'>Back</Link>
     </section>
   )
 }
