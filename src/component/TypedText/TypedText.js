@@ -127,13 +127,9 @@ function TypedText() {
     return <h1>Loading</h1>
   };
 
-  // console.log(&nbsp;)
   return (
     <div className='typed__container'>
       <div className='typed__buttons'>
-        {/* <div className='typed__upgrade' onClick={handleUpgrade}>Upgrades</div>
-        <div className='typed__stats' onClick={handleStats}>Stats</div> */}
-        {/* <ButtonComponent value={'Upgrades'} onClick={handleUpgrade} /> */}
         <Link className='typed__upgrade link' to='/upgrade'>Upgrades</Link>
         <Link className='typed__stats link' to='/stats'>Stats</Link>
       </div>
