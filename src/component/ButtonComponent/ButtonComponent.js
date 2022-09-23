@@ -6,7 +6,7 @@ function ButtonComponent({value, onClickHandler}) {
   const [ pulse, setPulse ] = useState(false)
 
   const clickHandler = () => {
-    // onClickHandler()
+    onClickHandler()
     setPulse(true)
     console.log('clicked')
     setTimeout(() => {setPulse(false)}, 160)

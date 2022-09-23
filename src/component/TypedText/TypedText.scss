@@ -17,43 +17,91 @@
     width: 100%;
   }
   
+  // &__box {
+  //   height: 5rem;
+  //   width: 100%;
+  //   display: grid;
+  //   justify-content: end;
+  //   // grid-template-columns: 93fr .55rem 2fr 98fr;
+  //   grid-template-columns: 93fr 7fr 2fr 98fr;
+  //   grid-template-rows: 1fr 1fr 1fr 1fr;
+  //   grid-template-areas: 
+  //     "text4 text4 text4 text4"
+  //     "text3 text3 text3 text3"
+  //     "text2 text2 text2 text2"
+  //     "text1 text blinker spacer"
+  //   ;
+  //   margin-bottom: .5rem;
+  // }
+
+  // &__area4 {
+  //   grid-area: text4;
+  // }
+  // &__area3 {
+  //   grid-area: text3;
+  // }
+  // &__area2 {
+  //   grid-area: text2;
+  // }
+  // &__area1 {
+  //   grid-area: text1;
+  // }
+  // &__area {
+  //   grid-area: text;
+  // }
+  // &__cursor {
+  //   grid-area: blinker;
+  //   background-color: black;
+  //   border-radius: 1rem;
+  //   animation: blink 1s infinite;
+  // }
+  
+  // &__spacer {
+  //   grid-area: spacer;
+  //   width: 50%;
+  // }
   &__box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     height: 5rem;
     width: 100%;
-    display: grid;
-    grid-template-columns: 100fr 2fr 98fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
-      "text4 text4 text4"
-      "text3 text3 text3"
-      "text2 text2 text2"
-      "text1 cursor spacer"
-    ;
     margin-bottom: .5rem;
   }
 
   &__area4 {
-    grid-area: text4;
+    height: 1.25rem;
   }
   &__area3 {
-    grid-area: text3;
+    height: 1.25rem;
   }
   &__area2 {
-    grid-area: text2;
+    height: 1.25rem;
   }
   &__area1 {
-    grid-area: text1;
+    height: 1.25rem;
+  }
+
+  &__last-line {
+    display: flex;
+    justify-content: flex-end;
+    height: 1.25rem;
+    width: 100%;
+  }
+  &__area {
+    height: 100%;
+    width: .5rem;
   }
   &__cursor {
-    grid-area: cursor;
+    height: 1.25rem;
+    width: .25rem;
     background-color: black;
     border-radius: 1rem;
     animation: blink 1s infinite;
   }
-  
   &__spacer {
-    grid-area: spacer;
-    width: 50%;
+    height: 1.25rem;
+    width: 49%;
   }
 }
 
@@ -82,11 +130,26 @@
   }
 }
 
+.input {
+  animation: inputed .075s linear;
+}
+
 @keyframes blink {
   0%, 24%, 75%, 100% {
     opacity: 1;
   }
   25%, 74% {
     opacity: 0;
+  }
+}
+
+@keyframes inputed {
+  0% {
+    transform: translateY(-3px);
+    scale: (1.5);
+  }
+  100% {
+    transform: translateY(0);
+    scale: (1);
   }
 }

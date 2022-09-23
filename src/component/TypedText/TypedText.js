@@ -13,6 +13,7 @@ function TypedText() {
   const [ saveData, setSaveData ] = useState([])
   const [ textString, setTextString ] = useState('')
   const [ characterLeftCount, setCharacterLeftCount ] = useState(0)
+  const [ inputedAnim, setInputedAnim ] = useState(false)
   const navigate = useNavigate()
 
   // ACTION ON EVERY KEY PRESS
@@ -23,6 +24,11 @@ function TypedText() {
       return;
     };
 
+    setInputedAnim(true)
+    setTimeout(() => {
+      setInputedAnim(false)
+    },60)
+    
     console.log(event.key)
     const typedAdded = localStorage.getItem('typed_string') + event.key
     const typedThisSave = localStorage.getItem('typed_string_this_save') + event.key
@@ -31,12 +37,13 @@ function TypedText() {
     const countLeftAdded = Number(localStorage.getItem('character_left')) + Number(localStorage.getItem('add_per_input'))
     setTextString(typedAdded)
     setCharacterLeftCount(countLeftAdded)
-
+    
     localStorage.setItem('typed_string', typedAdded)
     localStorage.setItem('typed_string_this_save', typedThisSave)
     localStorage.setItem('character_count', countAdded)
     localStorage.setItem('character_count_this_save', countThisSave)
     localStorage.setItem('character_left', countLeftAdded)
+
   }
 
   // FIRST GET AND SET DATA
@@ -120,6 +127,7 @@ function TypedText() {
     return <h1>Loading</h1>
   };
 
+  // console.log(&nbsp;)
   return (
     <div className='typed__container'>
       <div className='typed__buttons'>
@@ -130,14 +138,16 @@ function TypedText() {
         <Link className='typed__stats link' to='/stats'>Stats</Link>
       </div>
       <UserCurrentStat chrCountDisplay={characterLeftCount}/>
-      {/* <div>{typed}</div> */}
       <div className='typed__box'>
-        <span className='typed__area4' dir='rtl'>{textString.slice(-105,-75)}</span>
-        <span className='typed__area3' dir='rtl'>{textString.slice(-75,-45)}</span>
-        <span className='typed__area2' dir='rtl'>{textString.slice(-45,-15)}</span>
-        <span className='typed__area1' dir='rtl'>{textString.slice(-15)}</span>
-        <span className='typed__cursor'></span>
-        <span className='typed__spacer'></span>
+        <pre className='typed__area4'>{textString.slice(-105,-75)}</pre>
+        <pre className='typed__area3'>{textString.slice(-75,-45)}</pre>
+        <pre className='typed__area2'>{textString.slice(-45,-15)}</pre>
+        <div className='typed__last-line'>
+          <pre className='typed__area1'>{textString.slice(-15,-1)}</pre>
+          <pre className={`typed__area ${inputedAnim ? 'input' : ''}`}>{textString.slice(-1)}</pre>
+          <span className='typed__cursor'></span>
+          <span className='typed__spacer'></span>
+        </div>
       </div>
       <span>{characterLeftCount}</span>
     </div>
