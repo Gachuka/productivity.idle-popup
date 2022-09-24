@@ -2,6 +2,7 @@ import './UpgradePage.scss'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import numeral from 'numeral'
 import ButtonComponent from '../../component/ButtonComponent/ButtonComponent'
 
 const API_URL = "http://localhost:7878"
@@ -21,7 +22,6 @@ function UpgradePage() {
   const [ reload, setReload ] = useState(0)
 
   const localCharLeft = Number(localStorage.getItem('character_left'))
-  // const upg1Cost = Math.round(data.upgrade_1 * 50) * 10
 
   useEffect(() => {
     axios.get(API_URL).then((response) => {
@@ -114,7 +114,7 @@ function UpgradePage() {
           <p>Types one input every Xs</p>
         </div>
       </div>
-      <span>{data.character_left}</span>
+      <span>{numeral(data.character_left).format('Oa')}</span>
       <Link className='upgrade__back link' to='/'>Back</Link>
     </section>
   )

@@ -1,5 +1,6 @@
 import './ButtonComponent.scss'
 import { useState } from 'react'
+import numeral from 'numeral'
 
 function ButtonComponent({value, onClickHandler}) {
 
@@ -12,7 +13,7 @@ function ButtonComponent({value, onClickHandler}) {
   }
 
   return (
-    <button className={`button-component ${pulse ? 'pulse' : ''}`} onClick={clickHandler}>{value}</button>
+    <button className={`button-component ${pulse ? 'pulse' : ''}`} onClick={clickHandler}>{numeral(value).format('Oa')}</button>
   )
 }
 
