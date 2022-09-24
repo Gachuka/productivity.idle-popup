@@ -21,11 +21,14 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    height: 5rem;
+    height: 6.5rem;
     width: 100%;
-    margin-bottom: .5rem;
+    margin: auto 0;
   }
 
+  &__area5 {
+    height: 1.25rem;
+  }
   &__area4 {
     height: 1.25rem;
   }
@@ -59,6 +62,10 @@
   &__spacer {
     height: 1.25rem;
     width: 49%;
+  }
+  
+  &__keystroke {
+    margin-top: auto;
   }
 }
 

@@ -138,6 +138,7 @@ function TypedText() {
       </div>
       <UserCurrentStat chrCountExp={characterCurrent} chrCountDisplay={characterLeftCount}/>
       <div className='typed__box'>
+        <pre className='typed__area5'>{textString.slice(-135,-105)}</pre>
         <pre className='typed__area4'>{textString.slice(-105,-75)}</pre>
         <pre className='typed__area3'>{textString.slice(-75,-45)}</pre>
         <pre className='typed__area2'>{textString.slice(-45,-15)}</pre>
@@ -148,7 +149,8 @@ function TypedText() {
           <span className='typed__spacer'></span>
         </div>
       </div>
-      <span>{characterLeftCount}</span>
+      {/* <span>{characterLeftCount}</span> */}
+      <span className='typed__keystroke'>Keystroke: x{localStorage.getItem('add_per_input')}</span>
     </div>
   );
 };
