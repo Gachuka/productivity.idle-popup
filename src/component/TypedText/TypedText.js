@@ -12,6 +12,7 @@ function TypedText() {
 
   const [ saveData, setSaveData ] = useState([])
   const [ textString, setTextString ] = useState('')
+  const [ characterCurrent, setCharacterCurrent ] = useState(0)
   const [ characterLeftCount, setCharacterLeftCount ] = useState(0)
   const [ inputedAnim, setInputedAnim ] = useState(false)
   const navigate = useNavigate()
@@ -36,6 +37,7 @@ function TypedText() {
     const countThisSave = Number(localStorage.getItem('character_count_this_save')) + Number(localStorage.getItem('add_per_input'))
     const countLeftAdded = Number(localStorage.getItem('character_left')) + Number(localStorage.getItem('add_per_input'))
     setTextString(typedAdded)
+    setCharacterCurrent(countAdded)
     setCharacterLeftCount(countLeftAdded)
     
     localStorage.setItem('typed_string', typedAdded)
@@ -57,6 +59,7 @@ function TypedText() {
       console.log(response)
       setSaveData(response.data)
       setTextString(response.data.text_typed)
+      setCharacterCurrent(response.data.character_count)
       setCharacterLeftCount(response.data.character_left)
       // setAddPerInput(response.data.add_per_input)
 
@@ -133,7 +136,7 @@ function TypedText() {
         <Link className='typed__upgrade link' to='/upgrade'>Upgrades</Link>
         <Link className='typed__stats link' to='/stats'>Stats</Link>
       </div>
-      <UserCurrentStat chrCountDisplay={characterLeftCount}/>
+      <UserCurrentStat chrCountExp={characterCurrent} chrCountDisplay={characterLeftCount}/>
       <div className='typed__box'>
         <pre className='typed__area4'>{textString.slice(-105,-75)}</pre>
         <pre className='typed__area3'>{textString.slice(-75,-45)}</pre>
