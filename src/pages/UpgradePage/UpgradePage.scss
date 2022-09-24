@@ -11,11 +11,23 @@
   }
 
   &__header {
-    margin-bottom: .75rem;
+    margin-bottom: .5rem;
+  }
+
+  &__currency {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    &-num {
+      display: flex;
+      justify-content: center;
+      width: 30%;
+      height: 1.375rem;
+    }
   }
 
   &__back {
-    margin-top: auto;
+    margin: auto 0 0;
   }
 }
 
@@ -27,7 +39,7 @@
   &__container {
     display: flex;
     flex-direction: column;
-    margin-bottom: .5rem;
+    margin-bottom: .25rem;
   }
   &__cta {
     display: flex;

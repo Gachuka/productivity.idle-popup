@@ -107,14 +107,17 @@ function UpgradePage() {
         </div>
         <div className='option__container'>
           <div className='option__cta'>
-            <span>Type Bot:</span>a
+            <span>Type Bot:</span>
             <span className={`option__bought ${upgrade3Bought ? 'bought' : ''}`}>{upgrade3}</span>
             <ButtonComponent value={upgrade3Cost} onClickHandler={handleUpgrade3} /> 
           </div>
           <p>Types one input every Xs</p>
         </div>
       </div>
-      <span>{numeral(data.character_left).format('Oa')}</span>
+      <div className='upgrade__currency'>
+        <span>Characters left:</span>
+        <span className='upgrade__currency-num'>{numeral(data.character_left).format('Oa')}</span>
+      </div>
       <Link className='upgrade__back link' to='/'>Back</Link>
     </section>
   )
