@@ -8,7 +8,6 @@ function ButtonComponent({value, onClickHandler}) {
   const clickHandler = () => {
     onClickHandler()
     setPulse(true)
-    console.log('clicked')
     setTimeout(() => {setPulse(false)}, 160)
   }
 

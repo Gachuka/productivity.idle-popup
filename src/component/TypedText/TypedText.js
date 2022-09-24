@@ -48,11 +48,10 @@ function TypedText() {
 
   // FIRST GET AND SET DATA
   useEffect(() => {
-    console.log('mounted')
     window.addEventListener('keydown', downHandler)
     window.onunload = () => {
       localStorage.setItem('is_saving', false);
-    }
+    };
 
     axios.get(API_URL).then((response) => {
       console.log(response)
@@ -75,6 +74,7 @@ function TypedText() {
     return () => {
       console.log('unmounted');
       window.removeEventListener('keydown', downHandler);
+      savePeriod();
     };
   },[]);
 
@@ -82,21 +82,21 @@ function TypedText() {
   const savePeriod = () => {
     console.log('saved');
     axios.get(API_URL).then((response) => {
-      console.log('first Get');
+      // console.log('first Get');
       const putBody = {
         text_typed: localStorage.getItem('typed_string_this_save'),
         character_count: response.data.character_count + Number(localStorage.getItem('character_count_this_save'))
       };
-      console.log(putBody)
+      // console.log(putBody)
       return axios.put(API_URL, putBody);
     }).then((response) => {
-      console.log(response);
+      // console.log(response);
       localStorage.setItem('character_count_this_save', 0);
       localStorage.setItem('typed_string_this_save', '');
       return axios.get(API_URL);
     }).then((response) => {
       setTextString(response.data.text_typed);
-      console.log(response.data.text_typed);
+      // console.log(response.data.text_typed);
       setCharacterLeftCount(response.data.character_left);
     }).catch((error) => {
       console.log(error);
@@ -105,7 +105,7 @@ function TypedText() {
 
   // USEEFFECT TO CHECK RELOAD
   useEffect(() => {
-    console.log('Reload');
+    // console.log('Reload');
   },[textString, characterLeftCount]);
 
   // PAGE CHANGE
