@@ -55,7 +55,7 @@ function UserCurrentStat({chrCountExp, chrCountDisplay}) {
           </div>
           <div className='user__count count'>
             <div className='count__title'>Count</div>
-            <div className='count__number'>{numeral(chrCountDisplay).format('Oa')}</div>
+            <div className='count__number'>{numeral(chrCountDisplay).format('O.0a')}</div>
           </div>
         </div>
       </div>
