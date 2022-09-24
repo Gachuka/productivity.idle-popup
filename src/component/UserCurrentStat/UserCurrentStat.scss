@@ -31,6 +31,25 @@
     justify-content: space-between;
     margin-bottom: .25rem;
   }
+
+  &__level {
+    display: flex;
+  }
+}
+
+.lvlUp {
+  animation: lvlup .2s linear;
+}
+
+@keyframes lvlup {
+  0% {
+    transform: translateY(-3px) rotate(-30deg);
+    scale: (1.5);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+    scale: (1);
+  }
 }
 
 .expbar {

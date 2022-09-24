@@ -35,6 +35,21 @@
   }
   &__bought { 
     font-weight: 600;
-    margin: 0 1rem 0 auto
+    margin: 0 1.25rem 0 auto
+  }
+}
+
+.bought {
+  animation: bought .3s linear;
+}
+
+@keyframes bought {
+  0% {
+    transform: translateY(-3px) rotate(-30deg);
+    scale: (1.5);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+    scale: (1);
   }
 }

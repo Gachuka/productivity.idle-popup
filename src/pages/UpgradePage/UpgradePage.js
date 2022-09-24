@@ -11,10 +11,13 @@ function UpgradePage() {
   const [ data, setData ] = useState(null)
   const [ upgrade1, setUpgrade1 ] = useState(0)
   const [ upgrade1Cost, setUpgrade1Cost ] = useState(0)
+  const [ upgrade1Bought, setUpgrade1Bought ] = useState(false)
   const [ upgrade2, setUpgrade2 ] = useState(0)
   const [ upgrade2Cost, setUpgrade2Cost ] = useState(0)
+  const [ upgrade2Bought, setUpgrade2Bought ] = useState(0)
   const [ upgrade3, setUpgrade3 ] = useState(0)
   const [ upgrade3Cost, setUpgrade3Cost ] = useState(0)
+  const [ upgrade3Bought, setUpgrade3Bought ] = useState(0)
   const [ reload, setReload ] = useState(0)
 
   const localCharLeft = Number(localStorage.getItem('character_left'))
@@ -45,6 +48,8 @@ function UpgradePage() {
     localStorage.setItem('character_left', localCharLeft - upgrade1Cost)
     await axios.put(API_URL, {upgrade_1: upgrade1 + 1}).then(() => {
       setReload(Date.now())
+      setUpgrade1Bought(true)
+      setTimeout(() => {setUpgrade1Bought(false)}, 300)
     }).catch(error => console.log(error.message))
   }
   const handleUpgrade2 = async () => {
@@ -57,6 +62,8 @@ function UpgradePage() {
     localStorage.setItem('character_left', localCharLeft - upgrade2Cost)
     await axios.put(API_URL, {upgrade_2: upgrade2 + 1}).then(() => {
       setReload(Date.now())
+      setUpgrade2Bought(true)
+      setTimeout(() => {setUpgrade2Bought(false)}, 300)
     }).catch(error => console.log(error.message))
   }
   const handleUpgrade3 = async () => {
@@ -69,9 +76,11 @@ function UpgradePage() {
     localStorage.setItem('character_left', localCharLeft - upgrade3Cost)
     await axios.put(API_URL, {upgrade_3: upgrade3 + 1}).then(() => {
       setReload(Date.now())
+      setUpgrade3Bought(true)
+      setTimeout(() => {setUpgrade3Bought(false)}, 300)
     }).catch(error => console.log(error.message))
   }
-
+  
   if (!data) {
     return <h1>Loading</h1>
   }
@@ -83,7 +92,7 @@ function UpgradePage() {
         <div className='option__container'>
           <div className='option__cta'>
             <span>Magic Finger:</span>
-            <span className='option__bought'>{upgrade1}</span>
+            <span className={`option__bought ${upgrade1Bought ? 'bought' : ''}`}>{upgrade1}</span>
             <ButtonComponent value={upgrade1Cost} onClickHandler={handleUpgrade1} /> 
           </div>
           <p>Add one extra letter per input</p>
@@ -91,7 +100,7 @@ function UpgradePage() {
         <div className='option__container'>
           <div className='option__cta'>
             <span>Magic Double:</span>
-            <span className='option__bought'>{upgrade2}</span>
+            <span className={`option__bought ${upgrade2Bought ? 'bought' : ''}`}>{upgrade2}</span>
             <ButtonComponent value={upgrade2Cost} onClickHandler={handleUpgrade2} /> 
           </div>
           <p>Doubles every input</p>
@@ -99,7 +108,7 @@ function UpgradePage() {
         <div className='option__container'>
           <div className='option__cta'>
             <span>Type Bot:</span>a
-            <span className='option__bought'>{upgrade3}</span>
+            <span className={`option__bought ${upgrade3Bought ? 'bought' : ''}`}>{upgrade3}</span>
             <ButtonComponent value={upgrade3Cost} onClickHandler={handleUpgrade3} /> 
           </div>
           <p>Types one input every Xs</p>
