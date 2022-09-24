@@ -27,7 +27,7 @@ function UpgradePage() {
       setUpgrade1(response.data.upgrade_1)
       setUpgrade1Cost(Math.round(500 * Math.pow(1.5, response.data.upgrade_1)))
       setUpgrade2(response.data.upgrade_2)
-      setUpgrade2Cost(Math.round(1000 * Math.pow(4, response.data.upgrade_2)))
+      setUpgrade2Cost(Math.round(1000 * Math.pow(2.75, response.data.upgrade_2)))
       setUpgrade3(response.data.upgrade_3)
       setUpgrade3Cost(Math.round(750 * Math.pow(1.5, response.data.upgrade_3)))
     }).catch((error) => {
@@ -83,6 +83,7 @@ function UpgradePage() {
         <div className='option__container'>
           <div className='option__cta'>
             <span>Magic Finger:</span>
+            <span className='option__bought'>{upgrade1}</span>
             <ButtonComponent value={upgrade1Cost} onClickHandler={handleUpgrade1} /> 
           </div>
           <p>Add one extra letter per input</p>
@@ -90,16 +91,18 @@ function UpgradePage() {
         <div className='option__container'>
           <div className='option__cta'>
             <span>Magic Double:</span>
+            <span className='option__bought'>{upgrade2}</span>
             <ButtonComponent value={upgrade2Cost} onClickHandler={handleUpgrade2} /> 
           </div>
           <p>Doubles every input</p>
         </div>
         <div className='option__container'>
           <div className='option__cta'>
-            <span>Type Bot:</span>
+            <span>Type Bot:</span>a
+            <span className='option__bought'>{upgrade3}</span>
             <ButtonComponent value={upgrade3Cost} onClickHandler={handleUpgrade3} /> 
           </div>
-          <p>Types one letter per interval</p>
+          <p>Types one input every Xs</p>
         </div>
       </div>
       <span>{data.character_left}</span>

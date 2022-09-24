@@ -33,4 +33,8 @@
     display: flex;
     justify-content: space-between;
   }
+  &__bought { 
+    font-weight: 600;
+    margin: 0 1rem 0 auto
+  }
 }
