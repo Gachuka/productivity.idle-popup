@@ -1,14 +1,11 @@
 import './TypedText.scss'
 import { useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { getSave, putSave } from '../../utilities/utilities';
-import axios from 'axios'
 import UserCurrentStat from '../UserCurrentStat/UserCurrentStat'
 import numeral from 'numeral'
 
 const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
-// const API_URL = "https://productivity-idle-server.herokuapp.com/"
-const API_URL = "http://localhost:7878"
 const timerInterval = 5000
 
 function TypedText() {
@@ -18,13 +15,11 @@ function TypedText() {
   const [ characterCurrent, setCharacterCurrent ] = useState(0)
   const [ characterLeftCount, setCharacterLeftCount ] = useState(0)
   const [ inputedAnim, setInputedAnim ] = useState(false)
-  const navigate = useNavigate()
 
   // ACTION ON EVERY KEY PRESS
   const downHandler = (event) => {
 
     if (notLogged.some(string => event.key === string)) {
-      console.log("Not Logged");
       return;
     };
 
@@ -33,7 +28,6 @@ function TypedText() {
       setInputedAnim(false)
     },60)
     
-    console.log(event.key)
     const typedAdded = localStorage.getItem('typed_string') + event.key
     const typedThisSave = localStorage.getItem('typed_string_this_save') + event.key
     const countAdded = Number(localStorage.getItem('character_count')) + Number(localStorage.getItem('add_per_input'))
@@ -59,7 +53,6 @@ function TypedText() {
     };
 
     getSave().then((response) => {
-      console.log(response)
       setSaveData(response.data)
       setTextString(response.data.text_typed)
       setCharacterCurrent(response.data.character_count)
@@ -84,33 +77,28 @@ function TypedText() {
 
   // SAVE FUNCTION
   const savePeriod = () => {
-    console.log('saved');
     getSave().then((response) => {
-      // console.log('first Get');
       const putBody = {
         text_typed: localStorage.getItem('typed_string_this_save'),
         character_count: response.data.character_count + Number(localStorage.getItem('character_count_this_save'))
       };
-      // console.log(putBody)
       return putSave(putBody);
     }).then((response) => {
-      // console.log(response);
       localStorage.setItem('character_count_this_save', 0);
       localStorage.setItem('typed_string_this_save', '');
       return getSave();
     }).then((response) => {
       setTextString(response.data.text_typed);
-      // console.log(response.data.text_typed);
       setCharacterLeftCount(response.data.character_left);
     }).catch((error) => {
       console.log(error);
     })
   }
 
-  // USEEFFECT TO CHECK RELOAD
-  useEffect(() => {
-    // console.log('Reload');
-  },[textString, characterLeftCount]);
+  // // USEEFFECT TO CHECK RELOAD
+  // useEffect(() => {
+  //   console.log('Reload');
+  // },[textString, characterLeftCount]);
 
   // DO CHECK IF THERE IS DATA AND TIMER NOT STARTED YET
   if (localStorage.getItem('is_saving') === 'false' && saveData) {
@@ -142,8 +130,6 @@ function TypedText() {
           <span className='typed__spacer'></span>
         </div>
       </div>
-      {/* <span>{characterLeftCount}</span> */}
-      {/* <span className='typed__keystroke'>Keystroke: x{localStorage.getItem('add_per_input')}</span> */}
       <span className='typed__keystroke'>Keystroke: x{numeral(localStorage.getItem('add_per_input')).format('O,O')}</span>
     </div>
   );

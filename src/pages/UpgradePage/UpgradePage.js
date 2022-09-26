@@ -37,7 +37,6 @@ function UpgradePage() {
 
   const handleUpgrade1 = async () => {
     if (localCharLeft <= upgrade1Cost - 1) {
-      console.log('Can not be bought')
       return 
     }
     localStorage.setItem('character_left', localCharLeft - upgrade1Cost)
@@ -49,7 +48,6 @@ function UpgradePage() {
   }
   const handleUpgrade2 = async () => {
     if (localCharLeft <= upgrade2Cost - 1) {
-      console.log('Can not be bought')
       return 
     }
     localStorage.setItem('character_left', localCharLeft - upgrade2Cost)
@@ -61,7 +59,6 @@ function UpgradePage() {
   }
   const handleUpgrade3 = async () => {
     if (localCharLeft <= upgrade3Cost - 1) {
-      console.log('Can not be bought')
       return 
     }
     localStorage.setItem('character_left', localCharLeft - upgrade3Cost)
