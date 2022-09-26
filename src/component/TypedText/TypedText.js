@@ -1,6 +1,7 @@
 import './TypedText.scss'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { getSave, putSave } from '../../utilities/utilities';
 import axios from 'axios'
 import UserCurrentStat from '../UserCurrentStat/UserCurrentStat'
 import numeral from 'numeral'
@@ -57,13 +58,12 @@ function TypedText() {
       localStorage.setItem('is_saving', false);
     };
 
-    axios.get(API_URL).then((response) => {
+    getSave().then((response) => {
       console.log(response)
       setSaveData(response.data)
       setTextString(response.data.text_typed)
       setCharacterCurrent(response.data.character_count)
       setCharacterLeftCount(response.data.character_left)
-      // setAddPerInput(response.data.add_per_input)
 
       localStorage.setItem('typed_string', response.data.text_typed)
       localStorage.setItem('typed_string_this_save', '')
@@ -77,7 +77,6 @@ function TypedText() {
     });
 
     return () => {
-      console.log('unmounted');
       window.removeEventListener('keydown', downHandler);
       savePeriod();
     };
@@ -86,19 +85,19 @@ function TypedText() {
   // SAVE FUNCTION
   const savePeriod = () => {
     console.log('saved');
-    axios.get(API_URL).then((response) => {
+    getSave().then((response) => {
       // console.log('first Get');
       const putBody = {
         text_typed: localStorage.getItem('typed_string_this_save'),
         character_count: response.data.character_count + Number(localStorage.getItem('character_count_this_save'))
       };
       // console.log(putBody)
-      return axios.put(API_URL, putBody);
+      return putSave(putBody);
     }).then((response) => {
       // console.log(response);
       localStorage.setItem('character_count_this_save', 0);
       localStorage.setItem('typed_string_this_save', '');
-      return axios.get(API_URL);
+      return getSave();
     }).then((response) => {
       setTextString(response.data.text_typed);
       // console.log(response.data.text_typed);

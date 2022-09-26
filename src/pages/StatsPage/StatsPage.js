@@ -1,19 +1,16 @@
 import './StatsPage.scss'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { getSave } from '../../utilities/utilities';
 import numeral from 'numeral'
-
-const API_URL = "http://localhost:7878"
 
 function StatsPage() {
 
   const [ data, setData ] = useState(null)
 
   useEffect(() => {
-    axios.get(API_URL).then((response) => {
+    getSave().then((response) => {
       setData(response.data)
-      console.log(response.data)
     }).catch((error) => {
       console.log(error)
     })

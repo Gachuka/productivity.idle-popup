@@ -1,11 +1,9 @@
 import './UpgradePage.scss'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { getSave, putSave } from '../../utilities/utilities';
 import numeral from 'numeral'
 import ButtonComponent from '../../component/ButtonComponent/ButtonComponent'
-
-const API_URL = "http://localhost:7878"
 
 function UpgradePage() {
 
@@ -24,9 +22,8 @@ function UpgradePage() {
   const localCharLeft = Number(localStorage.getItem('character_left'))
 
   useEffect(() => {
-    axios.get(API_URL).then((response) => {
+    getSave().then((response) => {
       setData(response.data)
-      console.log(response.data)
       setUpgrade1(response.data.upgrade_1)
       setUpgrade1Cost(Math.round(500 * Math.pow(1.5, response.data.upgrade_1)))
       setUpgrade2(response.data.upgrade_2)
@@ -39,42 +36,36 @@ function UpgradePage() {
   },[reload])
 
   const handleUpgrade1 = async () => {
-    // console.log('Upgrade One Clicked')
     if (localCharLeft <= upgrade1Cost - 1) {
       console.log('Can not be bought')
       return 
     }
-    console.log('Can be bought')
     localStorage.setItem('character_left', localCharLeft - upgrade1Cost)
-    await axios.put(API_URL, {upgrade_1: upgrade1 + 1}).then(() => {
+    await putSave({upgrade_1: upgrade1 + 1}).then(() => {
       setReload(Date.now())
       setUpgrade1Bought(true)
       setTimeout(() => {setUpgrade1Bought(false)}, 300)
     }).catch(error => console.log(error.message))
   }
   const handleUpgrade2 = async () => {
-    // console.log('Upgrade Two Clicked')
     if (localCharLeft <= upgrade2Cost - 1) {
       console.log('Can not be bought')
       return 
     }
-    console.log('Can be bought')
     localStorage.setItem('character_left', localCharLeft - upgrade2Cost)
-    await axios.put(API_URL, {upgrade_2: upgrade2 + 1}).then(() => {
+    await putSave({upgrade_2: upgrade2 + 1}).then(() => {
       setReload(Date.now())
       setUpgrade2Bought(true)
       setTimeout(() => {setUpgrade2Bought(false)}, 300)
     }).catch(error => console.log(error.message))
   }
   const handleUpgrade3 = async () => {
-    // console.log('Upgrade Three Clicked')
     if (localCharLeft <= upgrade3Cost - 1) {
       console.log('Can not be bought')
       return 
     }
-    console.log('Can be bought')
     localStorage.setItem('character_left', localCharLeft - upgrade3Cost)
-    await axios.put(API_URL, {upgrade_3: upgrade3 + 1}).then(() => {
+    await putSave({upgrade_3: upgrade3 + 1}).then(() => {
       setReload(Date.now())
       setUpgrade3Bought(true)
       setTimeout(() => {setUpgrade3Bought(false)}, 300)
