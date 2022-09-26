@@ -41,11 +41,10 @@ function UserCurrentStat({chrCountExp, chrCountDisplay}) {
         <div className='stat__user user'>
           <div className='user__container'>
             <div className='user__info'>
-              <div className='user__title'>Novice Typer</div>
-              {/* <div className='user__level'>lv.{currentLevel}</div> */}
+              <span className='user__title'>Novice Typer</span>
               <div className='user__level'>
-                <div>lv.</div>
-                <div className={`user__lvl ${lvlUp ? 'lvlUp' : ''}`}>{currentLevel}</div>
+                <span>lv.</span>
+                <span className={`user__lvl ${lvlUp ? 'lvlUp' : ''}`}>{currentLevel}</span>
               </div>
             </div>
             <div className='user__expbar expbar'>
@@ -54,8 +53,8 @@ function UserCurrentStat({chrCountExp, chrCountDisplay}) {
             </div>
           </div>
           <div className='user__count count'>
-            <div className='count__title'>Count</div>
-            <div className='count__number'>{numeral(chrCountDisplay).format('O.0a')}</div>
+            <span className='count__title'>Count</span>
+            <span className='count__number'>{chrCountDisplay < 1000 ? chrCountDisplay : numeral(chrCountDisplay).format('O.0a')}</span>
           </div>
         </div>
       </div>
