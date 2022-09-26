@@ -13,7 +13,7 @@ function ButtonComponent({value, onClickHandler}) {
   }
 
   return (
-    <button className={`button-component ${pulse ? 'pulse' : ''}`} onClick={clickHandler}>{numeral(value).format('O.Oa')}</button>
+    <button className={`button-component ${pulse ? 'pulse' : ''}`} onClick={clickHandler}>{value < 10000 ? value : numeral(value).format('O.Oa')}</button>
   )
 }
 

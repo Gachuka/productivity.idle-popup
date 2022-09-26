@@ -116,7 +116,7 @@ function UpgradePage() {
       </div>
       <div className='upgrade__currency'>
         <span>Characters left:</span>
-        <span className='upgrade__currency-num'>{numeral(data.character_left).format('O.0a')}</span>
+        <span className='upgrade__currency-num'>{data.character_left < 10000 ? data.character_left : numeral(data.character_left).format('O.0a')}</span>
       </div>
       <Link className='upgrade__back link' to='/'>Back</Link>
     </section>

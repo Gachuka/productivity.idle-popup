@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 import UserCurrentStat from '../UserCurrentStat/UserCurrentStat'
+import numeral from 'numeral'
 
 const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
 const API_URL = "http://localhost:7878"
@@ -111,14 +112,6 @@ function TypedText() {
     // console.log('Reload');
   },[textString, characterLeftCount]);
 
-  // PAGE CHANGE
-  const handleUpgrade = (event) => {
-    navigate('/upgrade');
-  };
-  const handleStats = () => {
-    navigate('/stats');
-  };
-
   // DO CHECK IF THERE IS DATA AND TIMER NOT STARTED YET
   if (localStorage.getItem('is_saving') === 'false' && saveData) {
     setInterval(savePeriod, timerInterval);
@@ -150,7 +143,8 @@ function TypedText() {
         </div>
       </div>
       {/* <span>{characterLeftCount}</span> */}
-      <span className='typed__keystroke'>Keystroke: x{localStorage.getItem('add_per_input')}</span>
+      {/* <span className='typed__keystroke'>Keystroke: x{localStorage.getItem('add_per_input')}</span> */}
+      <span className='typed__keystroke'>Keystroke: x{numeral(localStorage.getItem('add_per_input')).format('O,O')}</span>
     </div>
   );
 };
