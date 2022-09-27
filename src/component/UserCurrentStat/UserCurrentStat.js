@@ -17,10 +17,6 @@ function UserCurrentStat({chrCountExp, chrCountDisplay}) {
     }
   }
 
-  // useEffect(() => {
-
-  // })
-
   let currentLevel = checkLevel(chrCountExp)
   let percent = ((chrCountExp-expPerLevel[checkLevel(chrCountExp)-1])/(expPerLevel[checkLevel(chrCountExp)]-expPerLevel[checkLevel(chrCountExp)-1]))*100
 
@@ -29,7 +25,6 @@ function UserCurrentStat({chrCountExp, chrCountDisplay}) {
   }
 
   if (oldLevel < currentLevel) {
-    console.log('here')
     oldLevel = currentLevel
     setLvlUp(true)
     setTimeout(() => {setLvlUp(false)}, 1000);

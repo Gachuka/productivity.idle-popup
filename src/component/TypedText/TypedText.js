@@ -15,39 +15,49 @@ function TypedText() {
   const [ characterCurrent, setCharacterCurrent ] = useState(0)
   const [ characterLeftCount, setCharacterLeftCount ] = useState(0)
   const [ inputedAnim, setInputedAnim ] = useState(false)
+  // let isKeyDown = false
 
   // ACTION ON EVERY KEY PRESS
   const downHandler = (event) => {
-
     if (notLogged.some(string => event.key === string)) {
       return;
     };
-
-    setInputedAnim(true)
-    setTimeout(() => {
-      setInputedAnim(false)
-    },60)
     
-    const typedAdded = localStorage.getItem('typed_string') + event.key
-    const typedThisSave = localStorage.getItem('typed_string_this_save') + event.key
-    const countAdded = Number(localStorage.getItem('character_count')) + Number(localStorage.getItem('add_per_input'))
-    const countThisSave = Number(localStorage.getItem('character_count_this_save')) + Number(localStorage.getItem('add_per_input'))
-    const countLeftAdded = Number(localStorage.getItem('character_left')) + Number(localStorage.getItem('add_per_input'))
-    setTextString(typedAdded)
-    setCharacterCurrent(countAdded)
-    setCharacterLeftCount(countLeftAdded)
-    
-    localStorage.setItem('typed_string', typedAdded)
-    localStorage.setItem('typed_string_this_save', typedThisSave)
-    localStorage.setItem('character_count', countAdded)
-    localStorage.setItem('character_count_this_save', countThisSave)
-    localStorage.setItem('character_left', countLeftAdded)
+    // if (!isKeyDown) {
+      // setIsKeyDown(true);
+      // isKeyDown = true
 
+      setInputedAnim(true)
+      setTimeout(() => {
+        setInputedAnim(false)
+      },60)
+      
+      const typedAdded = localStorage.getItem('typed_string') + event.key
+      const typedThisSave = localStorage.getItem('typed_string_this_save') + event.key
+      const countAdded = Number(localStorage.getItem('character_count')) + Number(localStorage.getItem('add_per_input'))
+      const countThisSave = Number(localStorage.getItem('character_count_this_save')) + Number(localStorage.getItem('add_per_input'))
+      const countLeftAdded = Number(localStorage.getItem('character_left')) + Number(localStorage.getItem('add_per_input'))
+      setTextString(typedAdded)
+      setCharacterCurrent(countAdded)
+      setCharacterLeftCount(countLeftAdded)
+      
+      localStorage.setItem('typed_string', typedAdded)
+      localStorage.setItem('typed_string_this_save', typedThisSave)
+      localStorage.setItem('character_count', countAdded)
+      localStorage.setItem('character_count_this_save', countThisSave)
+      localStorage.setItem('character_left', countLeftAdded)
+    // };
   }
+
+  // const upHandler = () => {
+  //   // setIsKeyDown(false)
+  //   isKeyDown = false
+  // }
 
   // FIRST GET AND SET DATA
   useEffect(() => {
     window.addEventListener('keydown', downHandler)
+    // window.addEventListener('keyup', upHandler)
     window.onunload = () => {
       localStorage.setItem('is_saving', false);
     };
