@@ -67,13 +67,32 @@ Execute the following command in the project root folder:
 npm start
 ```
 
+### Using Local/Remote Database
+
+Navigate to *./src/utilities/utilities.js*, uncomment the line of code with the wanted API_URL and leave the other one commented.
+
+- Using local database
+```
+// const API_URL = "REMOTE_DATABASE_URL"
+const  API_URL = "http://localhost:PORT_NUMBER"
+```
+
+- Using remote database
+```
+const API_URL = "REMOTE_DATABASE_URL"
+// const  API_URL = "http://localhost:PORT_NUMBER"
+```
+
 ### Bundle to implement into chrome extension
+
+Before bundling, 
 
 Execute the following command in the project root folder:
 
 ```
 npm run build
 ```
+
 This will create a "build" folder in the root folder.
 
 Copy over the contents in "static" folder and "asset-manifest.json" file to the chrome extension, replacing the CSS and JS files.
