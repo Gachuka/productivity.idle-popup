@@ -130,7 +130,7 @@ function TypedText() {
           <span className='typed__spacer'></span>
         </div>
       </div>
-      <span className='typed__keystroke'>Keystroke: x{numeral(localStorage.getItem('add_per_input')).format('O,O')}</span>
+      <span className='typed__keystroke'>Multiplier: x{numeral(localStorage.getItem('add_per_input')).format('O,O')}</span>
     </div>
   );
 };
