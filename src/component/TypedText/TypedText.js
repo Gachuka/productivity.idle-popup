@@ -6,7 +6,9 @@ import UserCurrentStat from '../UserCurrentStat/UserCurrentStat'
 import numeral from 'numeral'
 
 const notLogged = ["Space", "Enter", "Backspace", "Control", "Alt", "Shift", "Tab", "Meta", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "NumLock", "CapsLock", "Escape", "MediaTrackNext", "MediaTrackPrevious", "MediaStop", "MediaPlayPause","AudioVolumeMute", "AudioVolumeDown", "AudioVolumeUp", "LaunchApplication2", "Delete", "Insert", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PageDown", "PageUp", "Home", "End"]
+const randomInput = ["a","A","b","B","c","C","d","D","e","E","f","F","g","G","h","H","i","I","j","J","k","K","l","L","m","M","n","N","o","O","p","P","q","Q","r","R","s","S","t","T","u","U","v","V","w","W","x","X","y","Y","z","Z",0,1,2,3,4,5,6,7,8,9,"!","@","#","$","%","^","&","*","(",")","-","_","+","=","|","\\","{","}","[","]",`'`,`"`,"`","~",":",";","<",">",",",".","?","/"]
 const timerInterval = 5000
+let botTimer
 
 function TypedText() {
 
@@ -15,44 +17,37 @@ function TypedText() {
   const [ characterCurrent, setCharacterCurrent ] = useState(0)
   const [ characterLeftCount, setCharacterLeftCount ] = useState(0)
   const [ inputedAnim, setInputedAnim ] = useState(false)
-  // let isKeyDown = false
+  const [ botTypes, setBotTypes ] = useState(0)
 
   // ACTION ON EVERY KEY PRESS
   const downHandler = (event) => {
     if (notLogged.some(string => event.key === string)) {
       return;
     };
-    
-    // if (!isKeyDown) {
-      // setIsKeyDown(true);
-      // isKeyDown = true
-
-      setInputedAnim(true)
-      setTimeout(() => {
-        setInputedAnim(false)
-      },60)
-      
-      const typedAdded = localStorage.getItem('typed_string') + event.key
-      const typedThisSave = localStorage.getItem('typed_string_this_save') + event.key
-      const countAdded = Number(localStorage.getItem('character_count')) + Number(localStorage.getItem('add_per_input'))
-      const countThisSave = Number(localStorage.getItem('character_count_this_save')) + Number(localStorage.getItem('add_per_input'))
-      const countLeftAdded = Number(localStorage.getItem('character_left')) + Number(localStorage.getItem('add_per_input'))
-      setTextString(typedAdded)
-      setCharacterCurrent(countAdded)
-      setCharacterLeftCount(countLeftAdded)
-      
-      localStorage.setItem('typed_string', typedAdded)
-      localStorage.setItem('typed_string_this_save', typedThisSave)
-      localStorage.setItem('character_count', countAdded)
-      localStorage.setItem('character_count_this_save', countThisSave)
-      localStorage.setItem('character_left', countLeftAdded)
-    // };
+    inputHandler(event.key)
   }
 
-  // const upHandler = () => {
-  //   // setIsKeyDown(false)
-  //   isKeyDown = false
-  // }
+  const inputHandler = (input) => {
+    setInputedAnim(true)
+    setTimeout(() => {
+      setInputedAnim(false)
+    },60)
+    
+    const typedAdded = localStorage.getItem('typed_string') + input
+    const typedThisSave = localStorage.getItem('typed_string_this_save') + input
+    const countAdded = Number(localStorage.getItem('character_count')) + Number(localStorage.getItem('add_per_input'))
+    const countThisSave = Number(localStorage.getItem('character_count_this_save')) + Number(localStorage.getItem('add_per_input'))
+    const countLeftAdded = Number(localStorage.getItem('character_left')) + Number(localStorage.getItem('add_per_input'))
+    setTextString(typedAdded)
+    setCharacterCurrent(countAdded)
+    setCharacterLeftCount(countLeftAdded)
+    
+    localStorage.setItem('typed_string', typedAdded)
+    localStorage.setItem('typed_string_this_save', typedThisSave)
+    localStorage.setItem('character_count', countAdded)
+    localStorage.setItem('character_count_this_save', countThisSave)
+    localStorage.setItem('character_left', countLeftAdded)
+  }
 
   // FIRST GET AND SET DATA
   useEffect(() => {
@@ -60,13 +55,16 @@ function TypedText() {
     // window.addEventListener('keyup', upHandler)
     window.onunload = () => {
       localStorage.setItem('is_saving', false);
+      localStorage.setItem('bot_running', false);
     };
 
     getSave().then((response) => {
+      console.log('got save')
       setSaveData(response.data)
       setTextString(response.data.text_typed)
       setCharacterCurrent(response.data.character_count)
       setCharacterLeftCount(response.data.character_left)
+      setBotTypes(response.data.upgrade_3)
 
       localStorage.setItem('typed_string', response.data.text_typed)
       localStorage.setItem('typed_string_this_save', '')
@@ -80,8 +78,11 @@ function TypedText() {
     });
 
     return () => {
+      console.log('unmounted')
       window.removeEventListener('keydown', downHandler);
       savePeriod();
+      clearInterval(botTimer)
+      localStorage.setItem('bot_running', false);
     };
   },[]);
 
@@ -105,10 +106,11 @@ function TypedText() {
     })
   }
 
-  // // USEEFFECT TO CHECK RELOAD
-  // useEffect(() => {
-  //   console.log('Reload');
-  // },[textString, characterLeftCount]);
+  const botPeriod = () => {
+    const rdmInput = randomInput[Math.floor(Math.random()*randomInput.length)]
+    console.log(rdmInput)
+    inputHandler(rdmInput)
+  }
 
   // DO CHECK IF THERE IS DATA AND TIMER NOT STARTED YET
   if (localStorage.getItem('is_saving') === 'false' && saveData) {
@@ -116,6 +118,12 @@ function TypedText() {
     localStorage.setItem('is_saving', true);
   };
 
+  if (localStorage.getItem('bot_running') === 'false' && botTypes > 0) {
+    // setInterval(botPeriod, (botTypes*5000))
+    botTimer = setInterval(botPeriod, (botTypes*5000))
+    localStorage.setItem('bot_running', true)
+  }
+  
   // LOADING STATE WHEN THERE IS NO DATA
   if(textString === undefined) {
     return <h1>Loading</h1>
