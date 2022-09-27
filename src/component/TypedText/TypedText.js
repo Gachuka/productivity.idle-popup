@@ -27,6 +27,7 @@ function TypedText() {
     inputHandler(event.key)
   }
 
+  // INPUT HANDLER
   const inputHandler = (input) => {
     setInputedAnim(true)
     setTimeout(() => {
@@ -106,6 +107,7 @@ function TypedText() {
     })
   }
 
+  // BOT INPUT FUNCTION
   const botPeriod = () => {
     const rdmInput = randomInput[Math.floor(Math.random()*randomInput.length)]
     console.log(rdmInput)
@@ -119,7 +121,6 @@ function TypedText() {
   };
 
   if (localStorage.getItem('bot_running') === 'false' && botTypes > 0) {
-    // setInterval(botPeriod, (botTypes*5000))
     botTimer = setInterval(botPeriod, (botTypes*5000))
     localStorage.setItem('bot_running', true)
   }
