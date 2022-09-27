@@ -60,7 +60,6 @@ function TypedText() {
     };
 
     getSave().then((response) => {
-      console.log('got save')
       setSaveData(response.data)
       setTextString(response.data.text_typed)
       setCharacterCurrent(response.data.character_count)
@@ -79,7 +78,6 @@ function TypedText() {
     });
 
     return () => {
-      console.log('unmounted')
       window.removeEventListener('keydown', downHandler);
       savePeriod();
       clearInterval(botTimer)
@@ -110,7 +108,6 @@ function TypedText() {
   // BOT INPUT FUNCTION
   const botPeriod = () => {
     const rdmInput = randomInput[Math.floor(Math.random()*randomInput.length)]
-    console.log(rdmInput)
     inputHandler(rdmInput)
   }
 
