@@ -1,5 +1,7 @@
 # Productivity.Idle-popup
 
+PLEASE READ [Productivity.Idle](https://github.com/Gachuka/productivity.idle) FIRST BEFORE USING THIS REPOSITORY
+
 This repository is used to create the UI component that can be seen in the extension window for [Productivity.Idle](https://github.com/Gachuka/productivity.idle).
 
 This contains all the functionality and is able to run on its own in the development environment.
@@ -70,6 +72,8 @@ npm start
 ### Using Local/Remote Database
 
 Navigate to *./src/utilities/utilities.js*, uncomment the line of code with the wanted API_URL and leave the other one commented.
+
+PORT_NUMBER should be the same as port used for Productivity.idle-api
 
 - Using local database
 ```
